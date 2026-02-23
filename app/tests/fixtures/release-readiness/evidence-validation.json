@@ -1,0 +1,8 @@
+{
+  "releaseId": "RC-FIXTURE-EVIDENCE",
+  "missingArtifacts": ["approvals.json"],
+  "malformedArtifacts": ["decision.json"],
+  "releaseMismatch": true,
+  "requiredOwners": ["Engineering Lead", "Security Owner"],
+  "approvedOwners": ["Engineering Lead"]
+}

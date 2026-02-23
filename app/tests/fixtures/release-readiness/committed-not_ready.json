@@ -1,0 +1,7 @@
+{
+  "releaseId": "RC-FIXTURE-NOT-READY",
+  "verificationStatusOverrides": {
+    "VR-COM-003-ROLE-TRANSITION-ENFORCEMENT": "fail"
+  },
+  "deterministic": true
+}

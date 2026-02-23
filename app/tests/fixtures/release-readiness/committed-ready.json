@@ -1,0 +1,13 @@
+{
+  "releaseId": "RC-FIXTURE-READY",
+  "verificationStatus": "pass",
+  "deterministic": true,
+  "optionalOutcomes": [
+    {
+      "verificationId": "VR-OPT-001-SAMPLE",
+      "status": "fail",
+      "deterministic": true,
+      "evidenceRefs": ["raw-data/VR-OPT-001-SAMPLE.json"]
+    }
+  ]
+}
