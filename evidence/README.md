@@ -14,6 +14,13 @@ npm run verify:full -- --target <alias> --release <release_id> --gate <gate_id> 
 
 Startup wrappers and `verify:quick` do not generate full evidence bundles.
 
+Release-readiness report command:
+
+```bash
+cd app
+npm run verify:release-readiness -- -- --release <release_id> --scope committed
+```
+
 ## Required Files Per Bundle
 
 - `manifest.json`
@@ -36,9 +43,14 @@ Startup wrappers and `verify:quick` do not generate full evidence bundles.
   - `evidence/schemas/manifest.schema.json`
   - `evidence/schemas/decision.schema.json`
   - `evidence/schemas/approvals.schema.json`
+- Release readiness artifacts:
+  - `.ci/release-readiness-report.json`
+  - `.ci/release-decision.json`
+  - `evidence/sample-release-readiness/README.md`
 - Feature docs:
   - `specs/001-baseline-spec-bootstrap/quickstart.md`
   - `specs/001-baseline-spec-bootstrap/contracts/security-transition-contract.md`
   - `specs/001-baseline-spec-bootstrap/contracts/verification-and-gate-contract.md`
   - `specs/002-run-app-e2e/quickstart.md`
   - `specs/002-run-app-e2e/troubleshooting.md`
+  - `specs/003-release-hardening/quickstart.md`

@@ -1,0 +1,11 @@
+{
+  "status": "ready",
+  "releaseId": "RC-2026-02-23",
+  "source": "local_preview",
+  "scope": "committed",
+  "failingVerificationIds": [],
+  "missingArtifacts": [],
+  "approvalIssues": [],
+  "fieldTestCoverageIssues": [],
+  "followUpActions": []
+}
