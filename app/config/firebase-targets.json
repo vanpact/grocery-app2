@@ -1,0 +1,11 @@
+{
+  "profiles": [
+    {
+      "targetAlias": "default",
+      "firebaseProjectId": "grocery-app-1337",
+      "environment": "nonprod",
+      "isDefault": true,
+      "allowDestructiveReset": true
+    }
+  ]
+}

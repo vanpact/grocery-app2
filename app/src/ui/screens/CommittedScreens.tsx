@@ -23,6 +23,7 @@ const MD3_MAPPING = {
   loading: 'ActivityIndicator',
   error: 'Banner',
   offline: 'Banner',
+  reconnecting: 'Banner',
   itemRow: 'List.Item',
 } as const;
 

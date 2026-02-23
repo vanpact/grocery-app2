@@ -1,0 +1,25 @@
+{
+  "profiles": [
+    {
+      "targetAlias": "default",
+      "firebaseProjectId": "grocery-nonprod",
+      "environment": "nonprod",
+      "isDefault": true,
+      "allowDestructiveReset": true
+    },
+    {
+      "targetAlias": "staging-alt",
+      "firebaseProjectId": "grocery-staging-alt",
+      "environment": "nonprod",
+      "isDefault": false,
+      "allowDestructiveReset": true
+    },
+    {
+      "targetAlias": "prod-reference",
+      "firebaseProjectId": "grocery-prod",
+      "environment": "prod",
+      "isDefault": false,
+      "allowDestructiveReset": false
+    }
+  ]
+}

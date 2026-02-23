@@ -7,13 +7,24 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "lint": "eslint \"src/**/*.{ts,tsx}\" \"tests/**/*.ts\"",
-    "format": "prettier --check \"**/*.{ts,tsx,md,json}\""
+    "format": "prettier --check \"**/*.{ts,tsx,md,json}\"",
+    "db:setup": "tsx scripts/db-setup.ts",
+    "db:setup:provision": "tsx scripts/db-setup.ts --provision-accounts",
+    "start:android:emulator": "tsx scripts/start-android-emulator.ts",
+    "start:android:device": "tsx scripts/start-android-device.ts",
+    "verify:quick": "tsx scripts/verify-quick.ts",
+    "verify:full": "tsx scripts/verify-full.ts",
+    "test:runnable": "vitest run us1- us2- us3- tests/ux/us2- tests/contract/us3- tests/security/us3-",
+    "test:runnable:regression": "npm run test:runnable"
   },
   "dependencies": {
-    "expo": "^52.0.0",
+    "@types/react": "~19.1.10",
+    "expo": "^54.0.0",
+    "expo-asset": "~12.0.12",
     "firebase": "^11.0.0",
-    "react": "^18.3.1",
-    "react-native": "^0.76.0",
+    "firebase-admin": "^13.0.0",
+    "react": "19.1.0",
+    "react-native": "0.81.5",
     "react-native-paper": "^5.12.0"
   },
   "devDependencies": {
@@ -22,6 +33,7 @@
     "@typescript-eslint/parser": "^8.21.0",
     "eslint": "^8.57.1",
     "prettier": "^3.4.2",
+    "tsx": "^4.20.4",
     "typescript": "^5.7.3",
     "vitest": "^2.1.8"
   }

@@ -59,6 +59,15 @@ export function isOptionalModuleEnabled(moduleId: OptionalModuleId): boolean {
   return getOptionalModuleActivation(moduleId).enabled;
 }
 
+export function assertOptionalModuleEnabled(moduleId: OptionalModuleId): void {
+  const activation = getOptionalModuleActivation(moduleId);
+  if (!activation.enabled) {
+    throw new Error(
+      `Optional module "${moduleId}" is disabled (${activation.reason}).`,
+    );
+  }
+}
+
 export function clearOptionalModuleRegistry(): void {
   registry.clear();
 }
