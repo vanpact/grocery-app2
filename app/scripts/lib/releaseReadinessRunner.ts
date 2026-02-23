@@ -158,10 +158,13 @@ export function runReleaseReadiness(input: RunReleaseReadinessInput): RunRelease
   if (verificationFile?.releaseId && verificationFile.releaseId !== input.releaseId) {
     missingArtifacts.push(`release_mismatch:${verificationOutcomesPath}`);
   }
+  if (verificationFile && verificationFile.outcomes !== undefined && !Array.isArray(verificationFile.outcomes)) {
+    missingArtifacts.push(`invalid_json_array:${verificationOutcomesPath}:outcomes`);
+  }
 
   const verificationEvaluation = evaluateCommittedVerificationOutcomes({
     committedVerificationIds: canonicalSources.committedVerificationIds,
-    verificationOutcomes: verificationFile?.outcomes ?? [],
+    verificationOutcomes: Array.isArray(verificationFile?.outcomes) ? verificationFile.outcomes : [],
   });
   const optionalVerificationFailures = evaluateOptionalVerificationOutcomes(scope, verificationFile?.optionalOutcomes);
 

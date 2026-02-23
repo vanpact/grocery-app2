@@ -6,7 +6,7 @@ export type VerificationOutcomeInput = {
 
 type VerificationEvaluationInput = {
   committedVerificationIds: string[];
-  verificationOutcomes: VerificationOutcomeInput[];
+  verificationOutcomes: VerificationOutcomeInput[] | unknown;
 };
 
 export type VerificationEvaluationResult = {
@@ -24,8 +24,13 @@ export function evaluateCommittedVerificationOutcomes(
   const failingVerificationIds: string[] = [];
   const evaluationIssues: string[] = [];
   const outcomesByVerificationId = new Map<string, VerificationOutcomeInput[]>();
+  const verificationOutcomes = Array.isArray(input.verificationOutcomes) ? input.verificationOutcomes : [];
 
-  for (const outcome of input.verificationOutcomes) {
+  if (!Array.isArray(input.verificationOutcomes)) {
+    evaluationIssues.push('invalid_outcomes_type');
+  }
+
+  for (const outcome of verificationOutcomes) {
     const existing = outcomesByVerificationId.get(outcome.verificationId) ?? [];
     existing.push(outcome);
     outcomesByVerificationId.set(outcome.verificationId, existing);

@@ -1,4 +1,4 @@
-import { existsSync, readdirSync, readFileSync } from 'node:fs';
+import { existsSync, readdirSync, readFileSync, statSync } from 'node:fs';
 import { join } from 'node:path';
 
 export type EvidenceBundleRecord = {
@@ -73,7 +73,7 @@ export function readEvidenceBundles(input: { releaseEvidenceRootPath: string }):
       if (!existsSync(verificationResultsPath)) {
         missingArtifacts.push('verification-results.md');
       }
-      if (!existsSync(rawDataPath)) {
+      if (!existsSync(rawDataPath) || !statSync(rawDataPath).isDirectory()) {
         missingArtifacts.push('raw-data');
       }
 
