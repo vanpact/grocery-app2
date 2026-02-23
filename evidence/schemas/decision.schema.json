@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://grocery-app.local/evidence/schemas/decision.schema.json",
+  "title": "Gate Decision",
+  "type": "object",
+  "required": ["gateId", "decision", "decidedAt", "reason"],
+  "properties": {
+    "gateId": { "type": "string", "minLength": 1 },
+    "decision": { "type": "string", "enum": ["pass", "fail", "cut"] },
+    "decidedAt": { "type": "string", "format": "date-time" },
+    "reason": { "type": "string", "minLength": 1 }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://grocery-app.local/evidence/schemas/manifest.schema.json",
+  "title": "Evidence Manifest",
+  "type": "object",
+  "required": ["release", "gateId", "bundleId", "verificationRefs", "generatedAt"],
+  "properties": {
+    "release": { "type": "string", "minLength": 1 },
+    "gateId": { "type": "string", "minLength": 1 },
+    "bundleId": { "type": "string", "minLength": 1 },
+    "verificationRefs": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "minItems": 1
+    },
+    "generatedAt": { "type": "string", "format": "date-time" }
+  },
+  "additionalProperties": false
+}
