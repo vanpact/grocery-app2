@@ -1,4 +1,4 @@
-export type FeedbackState = 'empty' | 'loading' | 'error' | 'offline';
+export type FeedbackState = 'empty' | 'loading' | 'error' | 'offline' | 'reconnecting';
 
 export type Feedback = {
   state: FeedbackState;
@@ -14,6 +14,7 @@ const MESSAGES: Record<FeedbackState, string> = {
   loading: 'Loading shopping data...',
   error: 'Something went wrong. Retry to continue.',
   offline: 'Offline mode enabled. Changes will replay when online.',
+  reconnecting: 'Reconnecting... queued changes are replaying in order.',
 };
 
 export function getStateFeedback(state: FeedbackState): Feedback {

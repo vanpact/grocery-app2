@@ -9,8 +9,11 @@ export type MembershipRecoveryState = {
 
 export type ActiveShoppingScreenModel = {
   isOffline: boolean;
+  isReconnecting: boolean;
   validatedItems: Item[];
   offlineIndicator: string | null;
+  reconnectingIndicator: string | null;
+  lastReplayRefreshAtUtc: string | null;
   membershipRecovery: MembershipRecoveryState | null;
 };
 
@@ -25,18 +28,30 @@ export function getMembershipRecoveryState(): MembershipRecoveryState {
 export function buildActiveShoppingScreenModel(
   items: Item[],
   isOffline: boolean,
-  options?: { membershipRequired?: boolean },
+  options?: {
+    membershipRequired?: boolean;
+    isReconnecting?: boolean;
+    replayCompletedAtUtc?: string;
+  },
 ): ActiveShoppingScreenModel {
   const membershipRequired = options?.membershipRequired === true;
+  const isReconnecting = options?.isReconnecting === true;
 
   return {
     isOffline,
+    isReconnecting,
     validatedItems: membershipRequired ? [] : getActiveShoppingItems(items),
     offlineIndicator: membershipRequired
       ? null
       : isOffline
         ? 'Offline mode: queued changes will replay on reconnect.'
         : null,
+    reconnectingIndicator: membershipRequired
+      ? null
+      : isReconnecting
+        ? 'Reconnecting: replaying queued changes in deterministic order.'
+        : null,
+    lastReplayRefreshAtUtc: membershipRequired ? null : options?.replayCompletedAtUtc ?? null,
     membershipRecovery: membershipRequired ? getMembershipRecoveryState() : null,
   };
 }

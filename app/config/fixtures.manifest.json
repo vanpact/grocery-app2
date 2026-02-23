@@ -1,0 +1,39 @@
+{
+  "baselineOwned": {
+    "collections": [
+      "households",
+      "memberships",
+      "lists",
+      "events"
+    ],
+    "listItemSubcollections": [
+      "items"
+    ]
+  },
+  "fixtures": {
+    "households": [
+      {
+        "id": "household_alpha",
+        "name": "Household Alpha"
+      },
+      {
+        "id": "household_beta",
+        "name": "Household Beta"
+      }
+    ],
+    "lists": [
+      {
+        "id": "list-alpha-weekly",
+        "householdId": "household_alpha",
+        "name": "Weekly Alpha Groceries",
+        "type": "menus"
+      },
+      {
+        "id": "list-beta-weekly",
+        "householdId": "household_beta",
+        "name": "Weekly Beta Groceries",
+        "type": "menus"
+      }
+    ]
+  }
+}

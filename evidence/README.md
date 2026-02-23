@@ -6,6 +6,14 @@ Evidence bundles for release gates are stored under:
 
 `evidence/<release>/<gate_id>/<bundle_id>/`
 
+Runnable command path:
+
+```bash
+npm run verify:full -- --target <alias> --release <release_id> --gate <gate_id> --bundle <bundle_id>
+```
+
+Startup wrappers and `verify:quick` do not generate full evidence bundles.
+
 ## Required Files Per Bundle
 
 - `manifest.json`
@@ -32,3 +40,5 @@ Evidence bundles for release gates are stored under:
   - `specs/001-baseline-spec-bootstrap/quickstart.md`
   - `specs/001-baseline-spec-bootstrap/contracts/security-transition-contract.md`
   - `specs/001-baseline-spec-bootstrap/contracts/verification-and-gate-contract.md`
+  - `specs/002-run-app-e2e/quickstart.md`
+  - `specs/002-run-app-e2e/troubleshooting.md`

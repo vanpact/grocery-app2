@@ -1,0 +1,8 @@
+{
+  "verificationId": "VR-COM-003-ROLE-TRANSITION-ENFORCEMENT",
+  "status": "pass",
+  "evidenceRefs": [
+    "raw-data/VR-COM-003-ROLE-TRANSITION-ENFORCEMENT.json"
+  ],
+  "notes": "deny outcomes verified for unauthorized transition and cross-household access on default"
+}

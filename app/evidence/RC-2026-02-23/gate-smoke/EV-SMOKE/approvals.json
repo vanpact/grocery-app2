@@ -1,0 +1,13 @@
+{
+  "gate_id": "gate-smoke",
+  "bundle_id": "EV-SMOKE",
+  "required_owners": [
+    "Engineering Lead",
+    "Security Owner"
+  ],
+  "approvals": [
+    "Engineering Lead",
+    "Security Owner"
+  ],
+  "approved_at_utc": "2026-02-23T11:27:42.448Z"
+}

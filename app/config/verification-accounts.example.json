@@ -1,0 +1,25 @@
+{
+  "accounts": [
+    {
+      "key": "owner_primary",
+      "email": "owner.primary@example.com",
+      "requiredRole": "validate",
+      "requiredHouseholdId": "household_alpha",
+      "mustExist": true
+    },
+    {
+      "key": "member_primary",
+      "email": "member.primary@example.com",
+      "requiredRole": "suggest",
+      "requiredHouseholdId": "household_alpha",
+      "mustExist": true
+    },
+    {
+      "key": "outsider_primary",
+      "email": "outsider.primary@example.com",
+      "requiredRole": "suggest",
+      "requiredHouseholdId": "household_beta",
+      "mustExist": true
+    }
+  ]
+}

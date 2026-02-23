@@ -1,0 +1,8 @@
+{
+  "verificationId": "VR-COM-006-EVENT-COVERAGE",
+  "status": "pass",
+  "evidenceRefs": [
+    "raw-data/VR-COM-006-EVENT-COVERAGE.json"
+  ],
+  "notes": null
+}

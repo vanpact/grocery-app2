@@ -1,0 +1,8 @@
+{
+  "verificationId": "VR-COM-010-INPUT-PARITY-WEB",
+  "status": "pass",
+  "evidenceRefs": [
+    "raw-data/VR-COM-010-INPUT-PARITY-WEB.json"
+  ],
+  "notes": null
+}
