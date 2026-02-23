@@ -8,8 +8,15 @@
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
-    "types": ["vitest/globals", "node"],
+    "types": [
+      "vitest/globals",
+      "node"
+    ],
     "jsx": "preserve"
   },
-  "include": ["src", "tests"]
+  "include": [
+    "src",
+    "tests"
+  ],
+  "extends": "expo/tsconfig.base"
 }
