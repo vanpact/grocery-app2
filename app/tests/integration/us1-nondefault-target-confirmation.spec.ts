@@ -6,11 +6,13 @@ describe('US1 non-default target confirmation', () => {
     await expect(
       runDbSetup({
         targetAlias: 'staging-alt',
+        targetsConfigPath: 'config/firebase-targets.example.json',
       }),
     ).rejects.toThrow('confirm-non-default-target');
 
     const success = await runDbSetup({
       targetAlias: 'staging-alt',
+      targetsConfigPath: 'config/firebase-targets.example.json',
       confirmNonDefaultTarget: confirmationTokens.nonDefaultTarget('staging-alt'),
     });
 
