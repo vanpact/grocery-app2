@@ -2,6 +2,25 @@ import { describe, expect, it } from 'vitest';
 import { evaluateCiReleaseDecision } from '../../scripts/lib/ciReleaseDecision';
 
 describe('release CI enforcement contract', () => {
+  it('blocks publication when readiness source is not ci_authoritative', () => {
+    const decision = evaluateCiReleaseDecision({
+      status: 'ready',
+      releaseId: 'RC-2026-02-23',
+      source: 'local_preview',
+      scope: 'committed',
+      failingVerificationIds: [],
+      missingArtifacts: [],
+      approvalIssues: [],
+      fieldTestCoverageIssues: [],
+      followUpActions: [],
+    });
+
+    expect(decision).toEqual({
+      status: 'block_publication',
+      reasonCodes: ['SOURCE_NOT_CI_AUTHORITATIVE'],
+    });
+  });
+
   it('allows publication for ready reports', () => {
     const decision = evaluateCiReleaseDecision({
       status: 'ready',

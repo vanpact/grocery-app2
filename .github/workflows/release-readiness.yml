@@ -32,7 +32,7 @@ jobs:
         run: |
           mkdir -p ../.ci
           set +e
-          npm run verify:release-readiness -- -- --release "${{ inputs.release_id }}" --scope committed > ../.ci/release-readiness-report.json
+          npm run --silent verify:release-readiness -- -- --release "${{ inputs.release_id }}" --scope committed > ../.ci/release-readiness-report.json
           READINESS_EXIT_CODE=$?
           echo "readiness_exit_code=$READINESS_EXIT_CODE"
           exit 0

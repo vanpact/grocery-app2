@@ -6,6 +6,13 @@ function uniqSorted(values: string[]): string[] {
 }
 
 export function evaluateCiReleaseDecision(report: ReleaseReadinessOutput): CiGateDecision {
+  if (report.source !== 'ci_authoritative') {
+    return {
+      status: 'block_publication',
+      reasonCodes: ['SOURCE_NOT_CI_AUTHORITATIVE'],
+    };
+  }
+
   if (report.status === 'ready') {
     return {
       status: 'allow_publication',
