@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://grocery-app.local/evidence/schemas/approvals.schema.json",
+  "title": "Gate Approvals",
+  "type": "object",
+  "required": ["gateId", "approvals"],
+  "properties": {
+    "gateId": { "type": "string", "minLength": 1 },
+    "approvals": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["owner", "approved", "timestamp"],
+        "properties": {
+          "owner": { "type": "string", "minLength": 1 },
+          "approved": { "type": "boolean" },
+          "timestamp": { "type": "string", "format": "date-time" }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}

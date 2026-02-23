@@ -18,8 +18,10 @@ verification paths before implementation tasks.
 **Testing**: Firebase Emulator Suite for security rules; contract/integration/UX verification suites aligned to `VR-COM-*` and `FT-*` scenarios  
 **Target Platform**: Android and responsive Web (`<600`, `600-839`, `840-1199`, `>=1200`)  
 **Project Type**: Cross-platform application (single codebase)  
-**Performance Goals**: Deterministic replay safety (`data_loss_count = 0`, `duplicate_replay_count = 0`), stable navigation, and interaction parity on committed flows  
-**Constraints**: Role model `suggest|validate`, deny-by-default policy, strict household isolation, canonical lifecycle states, optional module fail-closed behavior, MD3/Responsive UI contracts  
+**Performance Goals**: Deterministic replay safety (`data_loss_count = 0`, `duplicate_replay_count = 0`), committed action latency `p95 <= 300ms`, and route transition render completion `<= 500ms` on reference devices  
+**Constraints**: Role model `suggest|validate`, deny-by-default policy, strict household isolation across document/query/stream surfaces, canonical lifecycle states with explicit no-op semantics, optional module fail-closed behavior, MD3/Responsive UI contracts, and accessibility baseline requirements  
+**Operational Assumptions**: Firebase outages trigger degraded mode (queue-only local intent capture + explicit outage state) until dependency recovery  
+**Ownership Model**: Security Engineering owns rule enforcement evidence, Platform Reliability owns replay/degraded-mode evidence, UX Engineering owns accessibility/responsiveness evidence, and Release Management owns gate decisions/approvals  
 **Scale/Scope**: Committed milestone path (`M0`, `M1`) and stories `GS-001` through `GS-010`; optional tiers remain gate-controlled and non-blocking
 
 ## Constitution Check

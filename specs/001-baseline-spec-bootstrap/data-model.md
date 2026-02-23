@@ -98,9 +98,30 @@
 - **Relationships**:
   - Many-to-one with `Household`.
 
+## Entity: ReplayMutation
+
+- **Primary Key**: `mutationId`
+- **Fields**:
+  - `mutationId: string`
+  - `householdId: string`
+  - `sequence: number`
+  - `status: 'pending' | 'applied' | 'failed'`
+  - `failureReason: string | null`
+  - `retryCount: number`
+  - `createdAt: timestamp`
+  - `updatedAt: timestamp`
+- **Validation Rules**:
+  - Replay order is FIFO by `sequence` within a household queue.
+  - Duplicate `mutationId` entries are ignored for apply and counted for telemetry.
+  - Failed mutations keep queue position until successful retry.
+- **Relationships**:
+  - Many-to-one with `Household`.
+
 ## Lifecycle State Transitions (Committed)
 
 - `draft -> suggested` allowed for `suggest` and `validate` with explicit confirmation.
 - `suggested -> validated` allowed for `validate` only.
 - `validated -> bought` allowed for `validate` only.
 - `bought -> validated` allowed for `validate` only.
+- No-op transitions (`from == to`) are explicit `noop` decisions and do not change state/version.
+- Invalid transitions return `transition_not_allowed`; stale writes return `version_conflict`.

@@ -1,0 +1,10 @@
+{
+  "expo": {
+    "name": "Grocery App",
+    "slug": "grocery-app",
+    "version": "0.1.0",
+    "platforms": ["android", "web"],
+    "orientation": "portrait",
+    "userInterfaceStyle": "automatic"
+  }
+}

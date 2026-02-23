@@ -54,9 +54,12 @@ As a user on Android or Web, I can complete committed flows with clear state fee
 
 - Network drop during a sequence of queued item mutations.
 - Concurrent adds of equivalent items from multiple users/lists.
+- Concurrent edits of the same item with stale version writes.
 - Unauthorized validator transition attempts from `suggest` role.
 - Cross-household read or write attempts by authenticated users.
+- Auth success with missing household membership.
 - Active Shopping aggregation receiving mixed lifecycle states.
+- Replay interruption after partial mutation apply during reconnect.
 - Optional feature gate marked `cut` and fallback path activation.
 
 ## Requirements *(mandatory)*
@@ -75,6 +78,20 @@ As a user on Android or Web, I can complete committed flows with clear state fee
 - **FR-010**: System MUST satisfy Material 3 Expressive mapping and responsive breakpoint contracts on Android and Web.
 - **FR-011**: Optional modules MUST remain gate-controlled and fail-closed without breaking committed flows.
 - **FR-012**: Release readiness MUST depend on passing committed verification rules, including mandatory `VR-COM-003-ROLE-TRANSITION-ENFORCEMENT`.
+- **FR-013**: If authentication succeeds but household membership cannot be resolved, system MUST block list/item/event operations, emit `membership_required`, and provide retry and sign-out recovery actions.
+- **FR-014**: Only authenticated household members with role `suggest` or `validate` MAY initiate lifecycle mutations; service/system automation MUST NOT bypass role or household checks.
+- **FR-015**: Transition evaluation MUST return explicit outcomes (`allowed`, `transition_not_allowed`, `household_mismatch`, `noop`), and `noop` outcomes MUST NOT mutate state or version.
+- **FR-016**: Active Shopping MUST include only `validated` items, exclude `draft|suggested|bought`, and sort deterministically by `aisleKey` then `nameSlug`.
+- **FR-017**: Offline replay MUST process queued mutations in FIFO order per household, enforce idempotency by stable `mutationId`, and increment duplicate replay telemetry when duplicates are ignored.
+- **FR-018**: During replay partial failure, successful mutations MUST remain committed, the failed mutation MUST be retained with retry metadata, and later queued mutations MUST NOT execute out of order.
+- **FR-019**: Household isolation MUST apply to document reads/writes, aggregate queries, and event-stream subscriptions.
+- **FR-020**: Concurrent item mutations MUST use version checks; stale-version writes MUST be denied with `version_conflict` and client retry guidance.
+- **FR-021**: Optional modules MUST only activate when both feature flag is enabled and gate decision is `pass`; each optional gate MUST declare accountable owner(s).
+- **FR-022**: Committed online add/validate interactions MUST meet `p95 <= 300ms`, and route transition render completion MUST meet `<= 500ms` on reference devices.
+- **FR-023**: Accessibility requirements MUST include keyboard-only completion on web, visible focus indicators on interactive controls, and screen-reader labels for core committed actions.
+- **FR-024**: Navigation stability MUST preserve route identity and unsent mutation queue across foreground/background transitions for offline periods up to 30 minutes.
+- **FR-025**: Dependency assumptions MUST define degraded mode for Firebase outage: queue-only local intent capture, explicit outage state visibility, and deferred verification execution.
+- **FR-026**: Security-rule maintenance and verification evidence ownership MUST be explicitly assigned per committed verification rule.
 
 ### Key Entities *(include if feature involves data)*
 
@@ -102,3 +119,16 @@ As a user on Android or Web, I can complete committed flows with clear state fee
 - **SC-004**: `VR-COM-004-ACTIVE-SHOPPING-FILTER` passes with Active Shopping showing only `validated` items.
 - **SC-005**: `VR-COM-005-STATE-VISIBILITY` and `VR-COM-008-M3E-COMPONENT-MAPPING` pass across committed screens.
 - **SC-006**: `VR-COM-009-RESPONSIVE-LAYOUT-COVERAGE` and `VR-COM-010-INPUT-PARITY-WEB` pass at all required web breakpoints.
+- **SC-007**: `VR-COM-011-AUTH-MEMBERSHIP-FAILURE-HANDLING` passes with operation deny behavior and explicit `membership_required` recovery state.
+- **SC-008**: `VR-COM-012-TRANSITION-OUTCOME-SEMANTICS` passes for `allowed`, `transition_not_allowed`, `household_mismatch`, and `noop` outcomes.
+- **SC-009**: `VR-COM-013-ACTIVE-SHOPPING-ORDERING` passes with deterministic ordering (`aisleKey`, `nameSlug`) and strict status exclusions.
+- **SC-010**: `VR-COM-014-REPLAY-ORDER-IDEMPOTENCY` passes with FIFO replay and duplicate suppression by `mutationId`.
+- **SC-011**: `VR-COM-015-REPLAY-PARTIAL-FAILURE-RECOVERY` passes with committed-success retention and ordered retry resume.
+- **SC-012**: `VR-COM-016-HOUSEHOLD-ISOLATION-QUERY-SURFACES` passes for documents, aggregates, and event streams.
+- **SC-013**: `VR-COM-017-OPTIONAL-GATE-ACTIVATION-OWNERSHIP` passes with gate-owner declaration and activation only on `pass`.
+- **SC-014**: `VR-COM-018-CONCURRENT-EDIT-CONFLICT-POLICY` passes with stale-version denial and retry path.
+- **SC-015**: `VR-COM-019-LATENCY-RESPONSIVENESS-THRESHOLDS` passes with `p95` action and route transition budgets.
+- **SC-016**: `VR-COM-020-ACCESSIBILITY-BASELINE` passes for keyboard completion, focus visibility, and screen-reader labels.
+- **SC-017**: `VR-COM-021-NAV-LIFECYCLE-STABILITY` passes with preserved route and queue state through lifecycle transitions.
+- **SC-018**: `VR-COM-022-DEPENDENCY-DEGRADED-MODE` passes with outage state, local queue capture, and deferred verification handling.
+- **SC-019**: `VR-COM-023-ACTOR-SCOPE-ENFORCEMENT` passes with no role/household bypass for service/system actors.
