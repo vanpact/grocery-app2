@@ -1,0 +1,20 @@
+{
+  "valid": {
+    "templateId": "tpl-breakfast",
+    "multiplier": 2,
+    "householdId": "hh-1",
+    "listId": "list-1"
+  },
+  "cancel": {
+    "templateId": "tpl-dinner",
+    "multiplier": 3,
+    "householdId": "hh-1",
+    "listId": "list-1"
+  },
+  "invalidMultiplier": {
+    "templateId": "tpl-breakfast",
+    "multiplier": 1.5,
+    "householdId": "hh-1",
+    "listId": "list-1"
+  }
+}

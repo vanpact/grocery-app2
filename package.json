@@ -1,0 +1,8 @@
+{
+  "name": "grocery-app2",
+  "private": true,
+  "scripts": {
+    "test": "npm --prefix app test",
+    "lint": "npm --prefix app run lint"
+  }
+}

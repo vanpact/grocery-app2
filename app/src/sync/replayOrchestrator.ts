@@ -17,6 +17,7 @@ export async function replayQueuedMutations(
 ): Promise<ReplayStats> {
   const mutations = queue.drain();
   const seen = new Set<string>();
+  const appliedIdempotencyTokens = new Set<string>();
 
   let appliedCount = 0;
   let dataLossCount = 0;
@@ -26,6 +27,12 @@ export async function replayQueuedMutations(
 
   for (let index = 0; index < mutations.length; index += 1) {
     const mutation = mutations[index];
+    const idempotencyToken = extractIdempotencyToken(mutation);
+
+    if (idempotencyToken && appliedIdempotencyTokens.has(idempotencyToken)) {
+      duplicateReplayCount += 1;
+      continue;
+    }
 
     if (seen.has(mutation.mutationId)) {
       duplicateReplayCount += 1;
@@ -37,6 +44,9 @@ export async function replayQueuedMutations(
     try {
       await applyMutation(mutation);
       appliedCount += 1;
+      if (idempotencyToken) {
+        appliedIdempotencyTokens.add(idempotencyToken);
+      }
     } catch {
       dataLossCount += 1;
       logger?.log({
@@ -49,11 +59,21 @@ export async function replayQueuedMutations(
 
       const failedMutationId = mutation.mutationId;
       const requeuedMutationIds = new Set<string>();
+      const requeuedIdempotencyTokens = new Set<string>();
 
       for (let tailIndex = index; tailIndex < mutations.length; tailIndex += 1) {
         const candidate = mutations[tailIndex];
+        const candidateIdempotencyToken = extractIdempotencyToken(candidate);
 
         if (requeuedMutationIds.has(candidate.mutationId)) {
+          continue;
+        }
+
+        if (candidateIdempotencyToken && appliedIdempotencyTokens.has(candidateIdempotencyToken)) {
+          continue;
+        }
+
+        if (candidateIdempotencyToken && requeuedIdempotencyTokens.has(candidateIdempotencyToken)) {
           continue;
         }
 
@@ -63,6 +83,9 @@ export async function replayQueuedMutations(
 
         queue.enqueue(candidate);
         requeuedMutationIds.add(candidate.mutationId);
+        if (candidateIdempotencyToken) {
+          requeuedIdempotencyTokens.add(candidateIdempotencyToken);
+        }
         requeuedCount += 1;
       }
 
@@ -78,4 +101,18 @@ export async function replayQueuedMutations(
     requeuedCount,
     stoppedOnFailure,
   };
+}
+
+function extractIdempotencyToken(mutation: Mutation): string | null {
+  const operationId = mutation.payload.operationId;
+  if (typeof operationId === 'string' && operationId) {
+    return operationId;
+  }
+
+  const idempotencyToken = mutation.payload.idempotencyToken;
+  if (typeof idempotencyToken === 'string' && idempotencyToken) {
+    return idempotencyToken;
+  }
+
+  return null;
 }

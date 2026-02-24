@@ -21,6 +21,13 @@ cd app
 npm run verify:release-readiness -- -- --release <release_id> --scope committed
 ```
 
+Quick-wins timing verification command:
+
+```bash
+cd app
+npm run verify:quick-wins -- -- --release <release_id> --gate G-QW-01 --bundle EV-QW-BULK-ADD
+```
+
 ## Required Files Per Bundle
 
 - `manifest.json`
@@ -47,6 +54,10 @@ npm run verify:release-readiness -- -- --release <release_id> --scope committed
   - `.ci/release-readiness-report.json`
   - `.ci/release-decision.json`
   - `evidence/sample-release-readiness/README.md`
+- Quick-wins gate artifacts:
+  - `.ci/quick-wins-report.json`
+  - `.ci/quick-wins-gate-decision.json`
+  - `evidence/sample-quick-wins/README.md`
 - Feature docs:
   - `specs/001-baseline-spec-bootstrap/quickstart.md`
   - `specs/001-baseline-spec-bootstrap/contracts/security-transition-contract.md`
@@ -54,3 +65,4 @@ npm run verify:release-readiness -- -- --release <release_id> --scope committed
   - `specs/002-run-app-e2e/quickstart.md`
   - `specs/002-run-app-e2e/troubleshooting.md`
   - `specs/003-release-hardening/quickstart.md`
+  - `specs/004-quick-wins-bulk-add/quickstart.md`

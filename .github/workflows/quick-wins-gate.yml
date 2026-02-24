@@ -1,0 +1,52 @@
+name: quick-wins-gate
+
+on:
+  workflow_dispatch:
+    inputs:
+      release_id:
+        description: Candidate release identifier (for example RC-2026-03-01)
+        required: true
+        type: string
+
+jobs:
+  quick-wins-gate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+          cache-dependency-path: app/package-lock.json
+
+      - name: Install dependencies
+        working-directory: app
+        run: npm ci
+
+      - name: Run quick-wins gate verification
+        working-directory: app
+        run: |
+          mkdir -p ../.ci
+          set +e
+          npm run --silent verify:quick-wins -- -- --release "${{ inputs.release_id }}" --gate G-QW-01 --bundle EV-QW-BULK-ADD > ../.ci/quick-wins-report.json
+          QUICK_WINS_EXIT_CODE=$?
+          echo "quick_wins_exit_code=$QUICK_WINS_EXIT_CODE"
+          exit 0
+
+      - name: Evaluate quick-wins publication decision
+        working-directory: app
+        run: |
+          npx tsx --eval "import { readFileSync, writeFileSync } from 'node:fs'; const report = JSON.parse(readFileSync('../.ci/quick-wins-report.json', 'utf8')); const shouldBlock = report.status !== 'pass' || report.gateDecision?.decision !== 'retain'; const decision = { status: shouldBlock ? 'block_publication' : 'allow_publication', reasonCodes: shouldBlock ? [...new Set([...(report.report?.reasonCodes ?? []), 'QUICK_WINS_GATE_FAIL'])].sort() : ['QUICK_WINS_GATE_PASS'] }; writeFileSync('../.ci/quick-wins-gate-decision.json', JSON.stringify(decision, null, 2)); if (shouldBlock) { process.exit(1); }"
+
+      - name: Upload quick-wins artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: quick-wins-gate-${{ inputs.release_id }}
+          path: |
+            .ci/quick-wins-report.json
+            .ci/quick-wins-gate-decision.json

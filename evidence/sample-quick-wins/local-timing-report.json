@@ -1,0 +1,26 @@
+{
+  "status": "pass",
+  "report": {
+    "releaseId": "RC-2026-03-01",
+    "gateId": "G-QW-01",
+    "bundleId": "EV-QW-BULK-ADD",
+    "verificationId": "VR-CND-101-BULK-ADD-TIME",
+    "status": "pass",
+    "baselineMedianMs": 1150,
+    "quickMedianMs": 800,
+    "improvementPct": 30.4348,
+    "runCountBaseline": 5,
+    "runCountQuick": 5,
+    "reasonCodes": []
+  },
+  "gateDecision": {
+    "gateId": "G-QW-01",
+    "decision": "retain",
+    "rationale": "all_requirements_satisfied",
+    "missingApprovals": [],
+    "failingVerificationIds": [],
+    "optionalModuleOutcomes": []
+  },
+  "timingRunsPath": "evidence/RC-2026-03-01/G-QW-01/EV-QW-BULK-ADD/raw-data/quick-wins-timing-runs.json",
+  "evidenceBundlePath": "evidence/RC-2026-03-01/G-QW-01/EV-QW-BULK-ADD"
+}

@@ -16,6 +16,10 @@ export type EvidenceBundleInput = {
   approvals: string[];
   decision: EvidenceDecision;
   rationale: string;
+  extraRawArtifacts?: Array<{
+    filename: string;
+    content: unknown;
+  }>;
   evidenceRootDir?: string;
   now?: () => Date;
 };
@@ -63,7 +67,19 @@ function buildVerificationResultsMarkdown(results: VerificationRuleResult[]): st
   return `${lines.join('\n')}\n`;
 }
 
-function writeRawDataArtifacts(rawDataDir: string, results: VerificationRuleResult[]): void {
+function serializeRawArtifact(content: unknown): string {
+  if (typeof content === 'string') {
+    return `${content}\n`;
+  }
+
+  return `${JSON.stringify(content, null, 2)}\n`;
+}
+
+function writeRawDataArtifacts(
+  rawDataDir: string,
+  results: VerificationRuleResult[],
+  extraRawArtifacts?: EvidenceBundleInput['extraRawArtifacts'],
+): void {
   mkdirSync(rawDataDir, { recursive: true });
   const sorted = [...results].sort((left, right) => left.verificationId.localeCompare(right.verificationId));
 
@@ -84,6 +100,11 @@ function writeRawDataArtifacts(rawDataDir: string, results: VerificationRuleResu
       'utf8',
     );
   }
+
+  for (const artifact of extraRawArtifacts ?? []) {
+    const filePath = join(rawDataDir, artifact.filename);
+    writeFileSync(filePath, serializeRawArtifact(artifact.content), 'utf8');
+  }
 }
 
 export function writeEvidenceBundle(input: EvidenceBundleInput): EvidenceBundleWriteResult {
@@ -97,7 +118,7 @@ export function writeEvidenceBundle(input: EvidenceBundleInput): EvidenceBundleW
   const rawDataDir = join(bundlePath, 'raw-data');
 
   mkdirSync(bundlePath, { recursive: true });
-  writeRawDataArtifacts(rawDataDir, input.results);
+  writeRawDataArtifacts(rawDataDir, input.results, input.extraRawArtifacts);
 
   const manifestPath = join(bundlePath, 'manifest.json');
   const verificationResultsPath = join(bundlePath, 'verification-results.md');

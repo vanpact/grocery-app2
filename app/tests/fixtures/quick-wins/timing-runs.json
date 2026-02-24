@@ -1,0 +1,28 @@
+{
+  "passCase": {
+    "baselineRuns": [
+      { "runId": "b1", "durationMs": 1200, "scenarioId": "bulk-add-1" },
+      { "runId": "b2", "durationMs": 1100, "scenarioId": "bulk-add-2" },
+      { "runId": "b3", "durationMs": 1150, "scenarioId": "bulk-add-3" },
+      { "runId": "b4", "durationMs": 1180, "scenarioId": "bulk-add-4" },
+      { "runId": "b5", "durationMs": 1120, "scenarioId": "bulk-add-5" }
+    ],
+    "quickRuns": [
+      { "runId": "q1", "durationMs": 800, "scenarioId": "bulk-add-1" },
+      { "runId": "q2", "durationMs": 790, "scenarioId": "bulk-add-2" },
+      { "runId": "q3", "durationMs": 780, "scenarioId": "bulk-add-3" },
+      { "runId": "q4", "durationMs": 810, "scenarioId": "bulk-add-4" },
+      { "runId": "q5", "durationMs": 805, "scenarioId": "bulk-add-5" }
+    ]
+  },
+  "failCase": {
+    "baselineRuns": [
+      { "runId": "b1", "durationMs": 1000, "scenarioId": "bulk-add-1" },
+      { "runId": "b2", "durationMs": 980, "scenarioId": "bulk-add-2" }
+    ],
+    "quickRuns": [
+      { "runId": "q1", "durationMs": 900, "scenarioId": "bulk-add-1" },
+      { "runId": "q2", "durationMs": -10, "scenarioId": "bulk-add-2" }
+    ]
+  }
+}

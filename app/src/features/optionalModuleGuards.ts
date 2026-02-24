@@ -2,6 +2,8 @@ export type OptionalModuleId = string;
 
 export type GateDecision = 'pass' | 'fail' | 'cut';
 
+export const QUICK_WINS_MODULE_ID = 'quick-wins-bulk-add' as const;
+
 export type OptionalModuleConfig = {
   enabled: boolean;
   gateDecision?: GateDecision;
