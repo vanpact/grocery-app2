@@ -1,0 +1,6 @@
+{
+  "releaseId": "RC-FIXTURE-FIELD",
+  "committedScenarioStatus": "pass",
+  "missingScenarioIds": ["FT-2"],
+  "failingScenarioIds": ["FT-UX-WEB-600-839"]
+}

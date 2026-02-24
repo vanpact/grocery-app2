@@ -73,3 +73,52 @@ export type VerificationRunResult = {
   results: VerificationRuleResult[];
   evidenceBundlePath: string;
 };
+
+export type ReleaseReadinessScope = 'committed' | 'committed_plus_optional';
+
+export type ReleaseReadinessSource = 'ci_authoritative' | 'local_preview';
+
+export type ReleaseReadinessStatus = 'ready' | 'not_ready';
+
+export type ReleaseVerificationOutcomeStatus = 'pass' | 'fail' | 'missing' | 'invalid' | 'duplicated';
+
+export type ReleaseVerificationOutcome = {
+  releaseId: string;
+  verificationId: string;
+  status: ReleaseVerificationOutcomeStatus;
+  evidenceRefs: string[];
+  deterministic: boolean;
+  notes?: string;
+};
+
+export type ReleaseFieldTestStatus = 'pass' | 'fail' | 'missing' | 'duplicated';
+
+export type ReleaseFieldTestCoverageRecord = {
+  releaseId: string;
+  scenarioId: string;
+  status: ReleaseFieldTestStatus;
+  evidenceRef: string | null;
+};
+
+export type ReleaseReadinessOutput = {
+  status: ReleaseReadinessStatus;
+  releaseId: string;
+  source: ReleaseReadinessSource;
+  scope: ReleaseReadinessScope;
+  failingVerificationIds: string[];
+  missingArtifacts: string[];
+  approvalIssues: string[];
+  fieldTestCoverageIssues: string[];
+  followUpActions: string[];
+};
+
+export type CiGateInput = {
+  releaseId: string;
+  readinessReportPath: string;
+  publicationTarget: string;
+};
+
+export type CiGateDecision = {
+  status: 'allow_publication' | 'block_publication';
+  reasonCodes: string[];
+};

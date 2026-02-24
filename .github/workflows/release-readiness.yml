@@ -1,0 +1,52 @@
+name: release-readiness
+
+on:
+  workflow_dispatch:
+    inputs:
+      release_id:
+        description: Candidate release identifier (for example RC-2026-02-23)
+        required: true
+        type: string
+
+jobs:
+  release-readiness-gate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+          cache-dependency-path: app/package-lock.json
+
+      - name: Install dependencies
+        working-directory: app
+        run: npm ci
+
+      - name: Run release-readiness report generation
+        working-directory: app
+        run: |
+          mkdir -p ../.ci
+          set +e
+          npm run --silent verify:release-readiness -- -- --release "${{ inputs.release_id }}" --scope committed > ../.ci/release-readiness-report.json
+          READINESS_EXIT_CODE=$?
+          echo "readiness_exit_code=$READINESS_EXIT_CODE"
+          exit 0
+
+      - name: Evaluate authoritative publication decision
+        working-directory: app
+        run: |
+          npx tsx --eval "import { writeFileSync } from 'node:fs'; import { evaluateCiReleaseDecisionFromFile } from './scripts/lib/ciReleaseDecision.ts'; const decision = evaluateCiReleaseDecisionFromFile('../.ci/release-readiness-report.json'); writeFileSync('../.ci/release-decision.json', JSON.stringify(decision, null, 2)); if (decision.status === 'block_publication') { process.exit(1); }"
+
+      - name: Upload readiness artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-readiness-${{ inputs.release_id }}
+          path: |
+            .ci/release-readiness-report.json
+            .ci/release-decision.json
