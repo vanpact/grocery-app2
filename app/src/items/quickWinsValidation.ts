@@ -28,11 +28,26 @@ export function validateQuickTemplate(template: QuickTemplate): string | null {
     return 'invalid_template_items';
   }
 
-  for (const item of template.items) {
-    if (!item.name || !item.name.trim()) {
+  for (const item of template.items as unknown[]) {
+    if (!item || typeof item !== 'object') {
+      return 'invalid_template_items';
+    }
+
+    const candidate = item as {
+      name?: unknown;
+      aisleKey?: unknown;
+      baseQty?: unknown;
+    };
+
+    if (typeof candidate.name !== 'string' || !candidate.name.trim()) {
       return 'invalid_template_item_name';
     }
-    if (typeof item.baseQty !== 'number' || Number.isNaN(item.baseQty) || item.baseQty <= 0) {
+
+    if (candidate.aisleKey !== null && typeof candidate.aisleKey !== 'string') {
+      return 'invalid_template_item_aisle_key';
+    }
+
+    if (typeof candidate.baseQty !== 'number' || Number.isNaN(candidate.baseQty) || candidate.baseQty <= 0) {
       return 'invalid_template_item_qty';
     }
   }

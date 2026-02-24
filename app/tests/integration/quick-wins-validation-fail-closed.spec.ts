@@ -1,6 +1,8 @@
 import { describe, expect, it } from 'vitest';
 import { clearOptionalModuleRegistry } from '../../src/features/optionalModuleGuards';
+import { createInMemoryQuickTemplateRepository } from '../../src/items/quickTemplateRepository';
 import { createQuickWinsService } from '../../src/items/quickWinsService';
+import { type QuickTemplate } from '../../src/types';
 import { createQuickWinsFixtureWorkspace, loadQuickWinsProjectionScenariosFixture } from '../helpers/quickWins';
 
 describe('quick-wins cancel and validation fail-closed', () => {
@@ -57,5 +59,41 @@ describe('quick-wins cancel and validation fail-closed', () => {
     expect(moduleDisabled.status).toBe('rejected');
     expect(moduleDisabled.rejectionReason).toBe('quick_wins_module_disabled');
     expect(moduleDisabled.items).toEqual(workspace.baseItems);
+  });
+
+  it('rejects malformed template rows without crashing', () => {
+    clearOptionalModuleRegistry();
+    const workspace = createQuickWinsFixtureWorkspace();
+    const malformedTemplates = [
+      {
+        templateId: 'tpl-malformed',
+        householdId: 'hh-1',
+        name: 'Malformed Pack',
+        kind: 'pack',
+        items: [
+          {
+            name: 'Milk',
+            aisleKey: 123,
+            baseQty: 1,
+          },
+        ],
+      },
+    ] as unknown as QuickTemplate[];
+    const repository = createInMemoryQuickTemplateRepository(malformedTemplates);
+    const service = createQuickWinsService(repository);
+
+    const outcome = service.executeQuickWins({
+      actorHouseholdId: 'hh-1',
+      householdId: 'hh-1',
+      listId: 'list-1',
+      templateId: 'tpl-malformed',
+      multiplier: 1,
+      existingItems: workspace.baseItems,
+      confirm: true,
+    });
+
+    expect(outcome.status).toBe('rejected');
+    expect(outcome.rejectionReason).toBe('invalid_template_item_aisle_key');
+    expect(outcome.items).toEqual(workspace.baseItems);
   });
 });

@@ -41,9 +41,8 @@ function foldTemplateItems(template: QuickTemplate): FoldedTemplateItem[] {
 
 function mapExistingByDedupKey(input: BuildQuickWinsProjectionInput): Map<string, Item> {
   const byKey = new Map<string, Item>();
-  const sorted = [...input.existingItems].sort((left, right) => left.itemId.localeCompare(right.itemId));
 
-  for (const item of sorted) {
+  for (const item of input.existingItems) {
     if (item.householdId !== input.householdId || item.listId !== input.listId) {
       continue;
     }
