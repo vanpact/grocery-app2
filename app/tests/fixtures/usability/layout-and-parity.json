@@ -1,0 +1,48 @@
+{
+  "viewports": [
+    {
+      "id": "mobile",
+      "width": 375,
+      "expectedBand": "<600",
+      "expectedLayout": "mobile"
+    },
+    {
+      "id": "tablet-compact",
+      "width": 768,
+      "expectedBand": "600-839",
+      "expectedLayout": "tablet"
+    },
+    {
+      "id": "tablet-wide",
+      "width": 1024,
+      "expectedBand": "840-1199",
+      "expectedLayout": "tablet"
+    },
+    {
+      "id": "desktop",
+      "width": 1280,
+      "expectedBand": ">=1200",
+      "expectedLayout": "desktop-two-pane"
+    }
+  ],
+  "parityScenarios": [
+    {
+      "scenarioId": "add-item",
+      "intent": "add-item",
+      "keyboardTrigger": "Enter",
+      "pointerTrigger": "click"
+    },
+    {
+      "scenarioId": "validate-item",
+      "intent": "validate-item",
+      "keyboardTrigger": "Enter",
+      "pointerTrigger": "click"
+    },
+    {
+      "scenarioId": "offline-retry-connection",
+      "intent": "retry_connection",
+      "keyboardTrigger": "Enter",
+      "pointerTrigger": "click"
+    }
+  ]
+}

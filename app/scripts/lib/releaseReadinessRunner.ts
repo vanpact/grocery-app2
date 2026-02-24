@@ -9,6 +9,7 @@ import { validateCommittedFieldTestCoverage } from './releaseFieldTestCoverageVa
 import { buildReleaseReadinessReport } from './releaseReadinessReport';
 import { resolveReleaseReadinessScope, resolveReleaseReadinessSource } from './releaseReadinessScope';
 import { evaluateCommittedVerificationOutcomes } from './releaseVerificationEvaluation';
+import { type EvidenceBundleRecord } from './releaseEvidenceReader';
 
 export type RunReleaseReadinessInput = {
   releaseId: string;
@@ -122,6 +123,38 @@ function evaluateOptionalFieldScenarios(
     .sort();
 }
 
+function evaluateUsabilityCriteriaFailures(bundles: EvidenceBundleRecord[]): string[] {
+  const failingCriteria: string[] = [];
+
+  for (const bundle of bundles) {
+    const summary = bundle.uiUsabilitySummary;
+    if (!summary || typeof summary !== 'object') {
+      continue;
+    }
+
+    const successCriteria = summary.successCriteria;
+    if (!successCriteria || typeof successCriteria !== 'object') {
+      continue;
+    }
+
+    const sc006 = (successCriteria as { sc006?: unknown }).sc006;
+    const sc007 = (successCriteria as { sc007?: unknown }).sc007;
+    const sc008 = (successCriteria as { sc008?: unknown }).sc008;
+
+    if (sc006 !== 'pass') {
+      failingCriteria.push('SC-006');
+    }
+    if (sc007 !== 'pass') {
+      failingCriteria.push('SC-007');
+    }
+    if (sc008 !== 'ready') {
+      failingCriteria.push('SC-008');
+    }
+  }
+
+  return uniqSorted(failingCriteria);
+}
+
 export function runReleaseReadiness(input: RunReleaseReadinessInput): RunReleaseReadinessOutput {
   const now = input.now ?? (() => new Date());
   const scope = resolveReleaseReadinessScope(input.scope);
@@ -178,6 +211,7 @@ export function runReleaseReadiness(input: RunReleaseReadinessInput): RunRelease
     releaseId: input.releaseId,
     bundles: evidenceBundles,
   });
+  const usabilityCriteriaFailures = evaluateUsabilityCriteriaFailures(evidenceValidation.validBundles);
 
   const approvalsValidation = validateApprovals({
     bundles: evidenceValidation.validBundles,
@@ -215,6 +249,7 @@ export function runReleaseReadiness(input: RunReleaseReadinessInput): RunRelease
     failingVerificationIds: uniqSorted([
       ...verificationEvaluation.failingVerificationIds,
       ...optionalVerificationFailures,
+      ...usabilityCriteriaFailures,
     ]),
     missingArtifacts: uniqSorted([...missingArtifacts, ...evidenceValidation.missingArtifacts]),
     approvalIssues: uniqSorted([...approvalIssues, ...approvalsValidation.approvalIssues]),

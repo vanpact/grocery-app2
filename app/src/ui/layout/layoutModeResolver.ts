@@ -1,21 +1,36 @@
-export type LayoutMode = 'mobile' | 'web-600-839' | 'web-840-1199' | 'desktop-2pane';
+export type ViewportBand = '<600' | '600-839' | '840-1199' | '>=1200';
 
-export function resolveLayoutMode(width: number): LayoutMode {
+export type LayoutMode = 'mobile' | 'tablet' | 'desktop-two-pane';
+
+export function resolveViewportBand(width: number): ViewportBand {
   if (!Number.isFinite(width)) {
-    return 'mobile';
+    return '<600';
   }
 
   if (width < 600) {
-    return 'mobile';
+    return '<600';
   }
 
   if (width < 840) {
-    return 'web-600-839';
+    return '600-839';
   }
 
   if (width < 1200) {
-    return 'web-840-1199';
+    return '840-1199';
   }
 
-  return 'desktop-2pane';
+  return '>=1200';
+}
+
+export function resolveLayoutMode(width: number): LayoutMode {
+  const band = resolveViewportBand(width);
+  if (band === '>=1200') {
+    return 'desktop-two-pane';
+  }
+
+  if (band === '<600') {
+    return 'mobile';
+  }
+
+  return 'tablet';
 }

@@ -1,0 +1,8 @@
+{
+  "verificationId": "VR-COM-002-DEDUP-KEY-COLLISION",
+  "status": "pass",
+  "evidenceRefs": [
+    "raw-data/VR-COM-002-DEDUP-KEY-COLLISION.json"
+  ],
+  "notes": null
+}

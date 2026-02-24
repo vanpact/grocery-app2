@@ -22,8 +22,8 @@ describe('VR-COM-007 navigation stability', () => {
     });
 
     expect(route.name).toBe('ActiveShopping');
-    expect(foregroundModel.layoutMode).toBe('web-840-1199');
-    expect(backgroundModel.layoutMode).toBe('web-840-1199');
-    expect(resumedModel.layoutMode).toBe('web-840-1199');
+    expect(foregroundModel.layoutMode).toBe('tablet');
+    expect(backgroundModel.layoutMode).toBe('tablet');
+    expect(resumedModel.layoutMode).toBe('tablet');
   });
 });

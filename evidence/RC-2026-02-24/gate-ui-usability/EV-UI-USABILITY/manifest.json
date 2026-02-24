@@ -1,0 +1,30 @@
+{
+  "release_id": "RC-2026-02-24",
+  "gate_id": "gate-ui-usability",
+  "bundle_id": "EV-UI-USABILITY",
+  "scope": "committed",
+  "generated_at_utc": "2026-02-24T16:55:23.608Z",
+  "artifact_version": "v1",
+  "story_ids": [
+    "GS-003",
+    "GS-004",
+    "GS-005",
+    "GS-006",
+    "GS-007",
+    "GS-008",
+    "GS-009",
+    "GS-010"
+  ],
+  "verification_ids": [
+    "VR-COM-001-OFFLINE-REPLAY",
+    "VR-COM-002-DEDUP-KEY-COLLISION",
+    "VR-COM-003-ROLE-TRANSITION-ENFORCEMENT",
+    "VR-COM-004-ACTIVE-SHOPPING-FILTER",
+    "VR-COM-005-STATE-VISIBILITY",
+    "VR-COM-006-EVENT-COVERAGE",
+    "VR-COM-007-NAV-STABILITY",
+    "VR-COM-008-M3E-COMPONENT-MAPPING",
+    "VR-COM-009-RESPONSIVE-LAYOUT-COVERAGE",
+    "VR-COM-010-INPUT-PARITY-WEB"
+  ]
+}

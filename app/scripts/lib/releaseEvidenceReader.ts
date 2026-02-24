@@ -10,6 +10,7 @@ export type EvidenceBundleRecord = {
   manifest?: Record<string, unknown>;
   decision?: Record<string, unknown>;
   approvals?: Record<string, unknown>;
+  uiUsabilitySummary?: Record<string, unknown>;
 };
 
 type ParsedJsonResult = {
@@ -57,6 +58,8 @@ export function readEvidenceBundles(input: { releaseEvidenceRootPath: string }):
       const approvalsPath = join(bundlePath, 'approvals.json');
       const verificationResultsPath = join(bundlePath, 'verification-results.md');
       const rawDataPath = join(bundlePath, 'raw-data');
+      const uiUsabilityTaskRunsPath = join(rawDataPath, 'ui-usability-task-runs.json');
+      const uiUsabilitySummaryPath = join(rawDataPath, 'ui-usability-summary.json');
 
       const missingArtifacts: string[] = [];
       const parseErrors: string[] = [];
@@ -76,10 +79,17 @@ export function readEvidenceBundles(input: { releaseEvidenceRootPath: string }):
       if (!existsSync(rawDataPath) || !statSync(rawDataPath).isDirectory()) {
         missingArtifacts.push('raw-data');
       }
+      if (!existsSync(uiUsabilityTaskRunsPath)) {
+        missingArtifacts.push('raw-data/ui-usability-task-runs.json');
+      }
+      if (!existsSync(uiUsabilitySummaryPath)) {
+        missingArtifacts.push('raw-data/ui-usability-summary.json');
+      }
 
       let manifest: Record<string, unknown> | undefined;
       let decision: Record<string, unknown> | undefined;
       let approvals: Record<string, unknown> | undefined;
+      let uiUsabilitySummary: Record<string, unknown> | undefined;
 
       if (existsSync(manifestPath)) {
         const parsedManifest = readJsonFile(manifestPath);
@@ -105,6 +115,14 @@ export function readEvidenceBundles(input: { releaseEvidenceRootPath: string }):
         }
       }
 
+      if (existsSync(uiUsabilitySummaryPath)) {
+        const parsedSummary = readJsonFile(uiUsabilitySummaryPath);
+        uiUsabilitySummary = parsedSummary.value;
+        if (parsedSummary.error) {
+          parseErrors.push(parsedSummary.error);
+        }
+      }
+
       bundleRecords.push({
         gateId: gateEntry.name,
         bundleId: bundleEntry.name,
@@ -114,6 +132,7 @@ export function readEvidenceBundles(input: { releaseEvidenceRootPath: string }):
         manifest,
         decision,
         approvals,
+        uiUsabilitySummary,
       });
     }
   }

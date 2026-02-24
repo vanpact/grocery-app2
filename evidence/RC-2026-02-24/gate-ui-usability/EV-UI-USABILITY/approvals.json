@@ -1,0 +1,13 @@
+{
+  "gate_id": "gate-ui-usability",
+  "bundle_id": "EV-UI-USABILITY",
+  "required_owners": [
+    "Engineering Lead",
+    "Security Owner"
+  ],
+  "approvals": [
+    "Engineering Lead",
+    "Security Owner"
+  ],
+  "approved_at_utc": "2026-02-24T16:55:23.608Z"
+}

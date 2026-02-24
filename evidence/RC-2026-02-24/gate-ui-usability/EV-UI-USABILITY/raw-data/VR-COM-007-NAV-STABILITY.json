@@ -1,0 +1,8 @@
+{
+  "verificationId": "VR-COM-007-NAV-STABILITY",
+  "status": "pass",
+  "evidenceRefs": [
+    "raw-data/VR-COM-007-NAV-STABILITY.json"
+  ],
+  "notes": null
+}

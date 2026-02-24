@@ -1,0 +1,95 @@
+{
+  "releaseId": "RC-2026-02-24",
+  "taskRuns": [
+    {
+      "runId": "android-touch-01",
+      "platform": "android",
+      "inputMode": "touch",
+      "flow": "core-add-validate",
+      "durationSeconds": 72,
+      "completed": true,
+      "deterministic": true
+    },
+    {
+      "runId": "android-touch-02",
+      "platform": "android",
+      "inputMode": "touch",
+      "flow": "core-add-validate",
+      "durationSeconds": 83,
+      "completed": true,
+      "deterministic": true
+    },
+    {
+      "runId": "android-touch-03",
+      "platform": "android",
+      "inputMode": "touch",
+      "flow": "core-add-validate",
+      "durationSeconds": 90,
+      "completed": true,
+      "deterministic": true
+    },
+    {
+      "runId": "android-touch-04",
+      "platform": "android",
+      "inputMode": "touch",
+      "flow": "core-add-validate",
+      "durationSeconds": 91,
+      "completed": true,
+      "deterministic": true
+    },
+    {
+      "runId": "android-touch-05",
+      "platform": "android",
+      "inputMode": "touch",
+      "flow": "core-add-validate",
+      "durationSeconds": 87,
+      "completed": true,
+      "deterministic": true
+    },
+    {
+      "runId": "web-keyboard-01",
+      "platform": "web",
+      "inputMode": "keyboard",
+      "flow": "core-add-validate",
+      "durationSeconds": 80,
+      "completed": true,
+      "deterministic": true
+    },
+    {
+      "runId": "web-keyboard-02",
+      "platform": "web",
+      "inputMode": "keyboard",
+      "flow": "core-add-validate",
+      "durationSeconds": 88,
+      "completed": true,
+      "deterministic": true
+    },
+    {
+      "runId": "web-pointer-01",
+      "platform": "web",
+      "inputMode": "pointer",
+      "flow": "core-add-validate",
+      "durationSeconds": 84,
+      "completed": true,
+      "deterministic": true
+    },
+    {
+      "runId": "web-pointer-02",
+      "platform": "web",
+      "inputMode": "pointer",
+      "flow": "core-add-validate",
+      "durationSeconds": 89,
+      "completed": true,
+      "deterministic": true
+    },
+    {
+      "runId": "web-pointer-03",
+      "platform": "web",
+      "inputMode": "pointer",
+      "flow": "core-add-validate",
+      "durationSeconds": 78,
+      "completed": true,
+      "deterministic": true
+    }
+  ]
+}

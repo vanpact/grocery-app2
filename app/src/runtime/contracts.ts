@@ -149,3 +149,66 @@ export type QuickWinsTimingReport = {
   runCountQuick: number;
   reasonCodes: string[];
 };
+
+export type CommittedDestination = 'sign-in' | 'active-shopping' | 'overview' | 'settings';
+
+export type FeedbackState = 'empty' | 'loading' | 'error' | 'offline' | 'membership-required' | 'reconnecting';
+
+export type RecoveryAction = 'retry' | 'continue' | 'retry_connection' | 'retry_membership' | 'sign_out';
+
+export type RecoveryActionContract = {
+  error: ['retry'];
+  offline: ['continue', 'retry_connection'];
+  'membership-required': ['retry_membership', 'sign_out'];
+};
+
+export type ScreenUsabilitySnapshot = {
+  destination: CommittedDestination;
+  state: FeedbackState;
+  primaryActions: string[];
+  recoveryActions: RecoveryAction[];
+  hasSilentFailure: boolean;
+  viewportWidth: number;
+  layoutMode: 'mobile' | 'tablet' | 'desktop-two-pane';
+};
+
+export type UiUsabilityTaskRun = {
+  runId: string;
+  platform: 'android' | 'web';
+  inputMode: 'touch' | 'keyboard' | 'pointer';
+  flow: 'core-add-validate';
+  durationSeconds: number;
+  completed: boolean;
+  deterministic: boolean;
+};
+
+export type UiUsabilityEvidenceInput = {
+  releaseId: string;
+  taskRuns: UiUsabilityTaskRun[];
+};
+
+export type UiUsabilityEvaluation = {
+  releaseId: string;
+  totalRuns: number;
+  runsWithin90Seconds: number;
+  completionRatePct: number;
+  sc006Status: 'pass' | 'fail';
+  sc007Status: 'pass' | 'fail';
+  finalStatus: 'ready' | 'not_ready';
+  reasonCodes: string[];
+};
+
+export type UiUsabilitySummaryReport = {
+  releaseId: string;
+  successCriteria: {
+    sc006: 'pass' | 'fail';
+    sc007: 'pass' | 'fail';
+    sc008: 'ready' | 'not_ready';
+  };
+  metrics: {
+    totalRuns: number;
+    runsWithin90Seconds: number;
+    completionRatePct: number;
+  };
+  reasonCodes: string[];
+};

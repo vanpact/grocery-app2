@@ -12,6 +12,7 @@ export type QuickVerificationInput = {
   accountsConfigPath?: string;
   fixturesConfigPath?: string;
   accountDirectory?: AccountDirectory;
+  useConfiguredAccountFallback?: boolean;
   now?: () => number;
 };
 
@@ -82,10 +83,23 @@ export async function runQuickVerification(
   const hydratedDirectory = adminClient.auth
     ? await hydrateDirectoryFromAuth(adminClient.auth, requirements)
     : {};
+  const configuredFallbackDirectory: AccountDirectory = input.useConfiguredAccountFallback
+    ? Object.fromEntries(
+        requirements.map((requirement) => [
+          requirement.key,
+          {
+            email: requirement.email,
+            role: requirement.requiredRole,
+            householdId: requirement.requiredHouseholdId,
+          },
+        ]),
+      )
+    : {};
 
   const accountPreparation = await prepareVerificationAccounts({
     requirements,
     directory: {
+      ...configuredFallbackDirectory,
       ...hydratedDirectory,
       ...(input.accountDirectory ?? {}),
     },

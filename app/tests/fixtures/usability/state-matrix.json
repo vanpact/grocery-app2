@@ -1,0 +1,28 @@
+{
+  "destinations": [
+    "sign-in",
+    "active-shopping",
+    "overview",
+    "settings"
+  ],
+  "requiredStates": [
+    "empty",
+    "loading",
+    "error",
+    "offline",
+    "membership-required"
+  ],
+  "expectedRecoveryActions": {
+    "error": [
+      "retry"
+    ],
+    "offline": [
+      "continue",
+      "retry_connection"
+    ],
+    "membership-required": [
+      "retry_membership",
+      "sign_out"
+    ]
+  }
+}

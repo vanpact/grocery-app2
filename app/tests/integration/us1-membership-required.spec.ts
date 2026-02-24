@@ -26,7 +26,7 @@ describe('US1 membership-required handling', () => {
     }
 
     expect(caught.code).toBe('membership_required');
-    expect(caught.recoveryActions).toEqual(['retry', 'sign_out']);
+    expect(caught.recoveryActions).toEqual(['retry_membership', 'sign_out']);
   });
 
   it('builds explicit recovery state when membership is missing', () => {
@@ -36,7 +36,7 @@ describe('US1 membership-required handling', () => {
     expect(model.membershipRecovery).toEqual({
       code: 'membership_required',
       message: 'No household membership found for this account.',
-      actions: ['retry', 'sign_out'],
+      actions: ['retry_membership', 'sign_out'],
     });
   });
 });

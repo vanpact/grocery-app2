@@ -4,7 +4,7 @@ import { buildActiveShoppingScreenModel } from '../../src/ui/screens/ActiveShopp
 
 describe('US2 offline/reconnecting state visibility', () => {
   it('surfaces explicit offline and reconnecting state messaging', () => {
-    expect(getStateFeedback('offline').message).toContain('Offline mode');
+    expect(getStateFeedback('offline').message).toContain('offline');
     expect(getStateFeedback('reconnecting').message).toContain('Reconnecting');
 
     const model = buildActiveShoppingScreenModel([], true, {

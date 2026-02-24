@@ -24,5 +24,7 @@ describe('US3 evidence bundle mandatory files', () => {
     expect(existsSync(join(bundlePath, 'raw-data'))).toBe(true);
     expect(existsSync(join(bundlePath, 'decision.json'))).toBe(true);
     expect(existsSync(join(bundlePath, 'approvals.json'))).toBe(true);
+    expect(existsSync(join(bundlePath, 'raw-data', 'ui-usability-task-runs.json'))).toBe(true);
+    expect(existsSync(join(bundlePath, 'raw-data', 'ui-usability-summary.json'))).toBe(true);
   });
 });
