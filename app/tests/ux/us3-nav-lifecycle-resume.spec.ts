@@ -16,6 +16,9 @@ describe('VR-COM-021 navigation lifecycle resume', () => {
     );
 
     expect(resumed.restored).toBe(true);
+    if (!resumed.restored) {
+      throw new Error('Expected lifecycle snapshot to be restored within offline window');
+    }
     expect(resumed.routeName).toBe('ActiveShopping');
     expect(resumed.pendingMutationIds).toEqual(['m1', 'm2']);
   });
@@ -30,6 +33,26 @@ describe('VR-COM-021 navigation lifecycle resume', () => {
     );
 
     expect(resumed.restored).toBe(false);
+    if (resumed.restored) {
+      throw new Error('Expected lifecycle snapshot restore to fail after offline window');
+    }
     expect(resumed.reason).toBe('resume_window_expired');
+  });
+
+  it('fails closed when snapshot timestamp is malformed', () => {
+    const resumed = resumeLifecycleSnapshot(
+      {
+        routeName: 'ActiveShopping',
+        pendingMutationIds: ['m1'],
+        savedAtIso: 'not-a-valid-date',
+      },
+      new Date('2026-02-23T00:10:00.000Z'),
+    );
+
+    expect(resumed.restored).toBe(false);
+    if (resumed.restored) {
+      throw new Error('Expected malformed snapshot timestamp to fail closed');
+    }
+    expect(resumed.reason).toBe('invalid_snapshot_timestamp');
   });
 });

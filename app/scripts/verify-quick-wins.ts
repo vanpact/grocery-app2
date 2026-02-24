@@ -1,7 +1,7 @@
 import { existsSync, readFileSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
-import { type QuickWinsTimingRun } from '../src/runtime/contracts';
+import { type QuickWinsTimingRun, type VerificationRuleResult } from '../src/runtime/contracts';
 import { writeEvidenceBundle, buildEvidenceBundlePath } from './lib/evidenceWriter';
 import { evaluateGateDecision } from './lib/gateDecision';
 import { evaluateQuickWinsTiming } from './lib/quickWinsTimingEvaluation';
@@ -166,12 +166,12 @@ export function runQuickWinsVerification(input: RunQuickWinsVerificationInput): 
     },
   });
 
-  const verificationResult = {
+  const verificationResult: VerificationRuleResult = {
     verificationId: report.verificationId,
     status: toRuleStatus(report.status),
     evidenceRefs: ['raw-data/quick-wins-timing-runs.json', 'raw-data/quick-wins-timing-report.json'],
     notes: `baseline_runs=${report.runCountBaseline}; quick_runs=${report.runCountQuick}; baseline_median_ms=${report.baselineMedianMs}; quick_median_ms=${report.quickMedianMs}; improvement_pct=${report.improvementPct}; reasons=${report.reasonCodes.join(',') || 'none'}`,
-  } as const;
+  };
 
   const requiredOwners = defaultRequiredOwners(input.gateId);
   const gateDecision = evaluateGateDecision({
