@@ -20,7 +20,7 @@ export type LifecycleResumeResult =
     }
   | {
       restored: false;
-      reason: 'resume_window_expired';
+      reason: 'resume_window_expired' | 'invalid_snapshot_timestamp';
     };
 
 export function getDesktopWorkspace(width: number): DesktopWorkspace {
@@ -58,7 +58,15 @@ export function resumeLifecycleSnapshot(
   at: Date = new Date(),
   maxOfflineMinutes = 30,
 ): LifecycleResumeResult {
-  const elapsedMs = at.getTime() - new Date(snapshot.savedAtIso).getTime();
+  const snapshotSavedAtMs = new Date(snapshot.savedAtIso).getTime();
+  if (!Number.isFinite(snapshotSavedAtMs)) {
+    return {
+      restored: false,
+      reason: 'invalid_snapshot_timestamp',
+    };
+  }
+
+  const elapsedMs = at.getTime() - snapshotSavedAtMs;
   const elapsedMinutes = elapsedMs / 60000;
 
   if (elapsedMinutes > maxOfflineMinutes) {
