@@ -14,6 +14,7 @@
     "start:android:device": "tsx scripts/start-android-device.ts",
     "verify:quick": "tsx scripts/verify-quick.ts",
     "verify:full": "tsx scripts/verify-full.ts",
+    "verify:quick-wins": "tsx scripts/verify-quick-wins.ts",
     "verify:release-readiness": "tsx scripts/verify-release-readiness.ts",
     "test:runnable": "vitest run us1- us2- us3- tests/ux/us2- tests/contract/us3- tests/security/us3-",
     "test:runnable:regression": "npm run test:runnable"

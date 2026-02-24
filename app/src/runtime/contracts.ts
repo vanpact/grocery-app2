@@ -122,3 +122,30 @@ export type CiGateDecision = {
   status: 'allow_publication' | 'block_publication';
   reasonCodes: string[];
 };
+
+export type QuickWinsOperationStatus = 'applied' | 'cancelled' | 'rejected';
+
+export type QuickWinsProjectionResolution = 'insert' | 'merge';
+
+export type QuickWinsTimingMode = 'baseline' | 'quick';
+
+export type QuickWinsTimingRun = {
+  runId: string;
+  mode: QuickWinsTimingMode;
+  durationMs: number;
+  scenarioId: string;
+};
+
+export type QuickWinsTimingReport = {
+  releaseId: string;
+  gateId: string;
+  bundleId: string;
+  verificationId: 'VR-CND-101-BULK-ADD-TIME';
+  status: 'pass' | 'fail';
+  baselineMedianMs: number;
+  quickMedianMs: number;
+  improvementPct: number;
+  runCountBaseline: number;
+  runCountQuick: number;
+  reasonCodes: string[];
+};
