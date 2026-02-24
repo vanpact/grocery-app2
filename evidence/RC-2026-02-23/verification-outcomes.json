@@ -1,0 +1,56 @@
+{
+  "releaseId": "RC-2026-02-23",
+  "outcomes": [
+    {
+      "verificationId": "VR-COM-001-OFFLINE-REPLAY",
+      "status": "pass",
+      "deterministic": true
+    },
+    {
+      "verificationId": "VR-COM-002-DEDUP-KEY-COLLISION",
+      "status": "pass",
+      "deterministic": true
+    },
+    {
+      "verificationId": "VR-COM-003-ROLE-TRANSITION-ENFORCEMENT",
+      "status": "pass",
+      "deterministic": true
+    },
+    {
+      "verificationId": "VR-COM-004-ACTIVE-SHOPPING-FILTER",
+      "status": "pass",
+      "deterministic": true
+    },
+    {
+      "verificationId": "VR-COM-005-STATE-VISIBILITY",
+      "status": "pass",
+      "deterministic": true
+    },
+    {
+      "verificationId": "VR-COM-006-EVENT-COVERAGE",
+      "status": "pass",
+      "deterministic": true
+    },
+    {
+      "verificationId": "VR-COM-007-NAV-STABILITY",
+      "status": "pass",
+      "deterministic": true
+    },
+    {
+      "verificationId": "VR-COM-008-M3E-COMPONENT-MAPPING",
+      "status": "pass",
+      "deterministic": true
+    },
+    {
+      "verificationId": "VR-COM-009-RESPONSIVE-LAYOUT-COVERAGE",
+      "status": "pass",
+      "deterministic": true
+    },
+    {
+      "verificationId": "VR-COM-010-INPUT-PARITY-WEB",
+      "status": "pass",
+      "deterministic": true
+    }
+  ],
+  "optionalOutcomes": []
+}

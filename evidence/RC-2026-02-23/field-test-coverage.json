@@ -1,0 +1,34 @@
+{
+  "releaseId": "RC-2026-02-23",
+  "scenarios": [
+    {
+      "scenarioId": "FT-1",
+      "status": "pass"
+    },
+    {
+      "scenarioId": "FT-2",
+      "status": "pass"
+    },
+    {
+      "scenarioId": "FT-UX-ANDROID-M3E",
+      "status": "pass"
+    },
+    {
+      "scenarioId": "FT-UX-CROSS-PLATFORM-PARITY",
+      "status": "pass"
+    },
+    {
+      "scenarioId": "FT-UX-WEB-600-839",
+      "status": "pass"
+    },
+    {
+      "scenarioId": "FT-UX-WEB-DESKTOP-2PANE",
+      "status": "pass"
+    },
+    {
+      "scenarioId": "FT-UX-WEB-MID-RANGE-840-1199",
+      "status": "pass"
+    }
+  ],
+  "optionalScenarios": []
+}
