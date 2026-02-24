@@ -98,7 +98,7 @@ function evaluateOptionalVerificationOutcomes(
   scope: ReleaseReadinessScope,
   optionalOutcomes: VerificationOutcomeFile['optionalOutcomes'],
 ): string[] {
-  if (scope !== 'committed_plus_optional' || !optionalOutcomes) {
+  if (scope !== 'committed_plus_optional' || !Array.isArray(optionalOutcomes)) {
     return [];
   }
 
@@ -161,6 +161,9 @@ export function runReleaseReadiness(input: RunReleaseReadinessInput): RunRelease
   if (verificationFile && verificationFile.outcomes !== undefined && !Array.isArray(verificationFile.outcomes)) {
     missingArtifacts.push(`invalid_json_array:${verificationOutcomesPath}:outcomes`);
   }
+  if (verificationFile && verificationFile.optionalOutcomes !== undefined && !Array.isArray(verificationFile.optionalOutcomes)) {
+    missingArtifacts.push(`invalid_json_array:${verificationOutcomesPath}:optionalOutcomes`);
+  }
 
   const verificationEvaluation = evaluateCommittedVerificationOutcomes({
     committedVerificationIds: canonicalSources.committedVerificationIds,
@@ -186,10 +189,13 @@ export function runReleaseReadiness(input: RunReleaseReadinessInput): RunRelease
   if (fieldCoverageFile?.releaseId && fieldCoverageFile.releaseId !== input.releaseId) {
     missingArtifacts.push(`release_mismatch:${fieldTestCoveragePath}`);
   }
+  if (fieldCoverageFile && fieldCoverageFile.scenarios !== undefined && !Array.isArray(fieldCoverageFile.scenarios)) {
+    missingArtifacts.push(`invalid_json_array:${fieldTestCoveragePath}:scenarios`);
+  }
 
   const fieldCoverageValidation = validateCommittedFieldTestCoverage({
     committedScenarioIds: canonicalSources.committedFieldTestScenarioIds,
-    coverageRecords: fieldCoverageFile?.scenarios ?? [],
+    coverageRecords: Array.isArray(fieldCoverageFile?.scenarios) ? fieldCoverageFile.scenarios : [],
   });
   const optionalFieldCoverageFailures = evaluateOptionalFieldScenarios(scope, fieldCoverageFile?.optionalScenarios);
 
