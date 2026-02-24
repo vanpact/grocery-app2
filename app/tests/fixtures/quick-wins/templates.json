@@ -1,0 +1,34 @@
+{
+  "templates": [
+    {
+      "templateId": "tpl-breakfast",
+      "householdId": "hh-1",
+      "name": "Breakfast Pack",
+      "kind": "pack",
+      "items": [
+        { "name": "Eggs", "aisleKey": "protein", "baseQty": 2 },
+        { "name": "Milk", "aisleKey": "dairy", "baseQty": 1 },
+        { "name": "eggs", "aisleKey": "PROTEIN", "baseQty": 1 }
+      ]
+    },
+    {
+      "templateId": "tpl-dinner",
+      "householdId": "hh-1",
+      "name": "Dinner Recipe",
+      "kind": "recipe",
+      "items": [
+        { "name": "Rice", "aisleKey": "dry", "baseQty": 1 },
+        { "name": "Chicken", "aisleKey": "protein", "baseQty": 2 }
+      ]
+    },
+    {
+      "templateId": "tpl-other-household",
+      "householdId": "hh-2",
+      "name": "Other Household Pack",
+      "kind": "pack",
+      "items": [
+        { "name": "Bread", "aisleKey": "bakery", "baseQty": 1 }
+      ]
+    }
+  ]
+}
