@@ -1,6 +1,10 @@
 export type LayoutMode = 'mobile' | 'web-600-839' | 'web-840-1199' | 'desktop-2pane';
 
 export function resolveLayoutMode(width: number): LayoutMode {
+  if (!Number.isFinite(width)) {
+    return 'mobile';
+  }
+
   if (width < 600) {
     return 'mobile';
   }

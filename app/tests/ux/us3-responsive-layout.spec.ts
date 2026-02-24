@@ -9,4 +9,9 @@ describe('US3 responsive layout coverage', () => {
     expect(resolveLayoutMode(1024)).toBe('web-840-1199');
     expect(resolveLayoutMode(1280)).toBe('desktop-2pane');
   });
+
+  it('falls back to mobile layout when viewport width is non-finite', () => {
+    expect(resolveLayoutMode(Number.NaN)).toBe('mobile');
+    expect(resolveLayoutMode(Number.POSITIVE_INFINITY)).toBe('mobile');
+  });
 });
