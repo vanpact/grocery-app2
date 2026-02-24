@@ -6,6 +6,14 @@ export type DesktopWorkspace = {
   secondaryColumns: number;
 };
 
+export type DesktopTaskGuardrails = {
+  mode: 'single' | 'two-pane';
+  maxInteractionsToPrimaryAction: number;
+  horizontalScrollRequired: boolean;
+  secondaryPaneBlocksPrimaryTask: boolean;
+  primaryTaskReachable: boolean;
+};
+
 export type LifecycleSnapshot = {
   routeName: string;
   pendingMutationIds: string[];
@@ -24,7 +32,7 @@ export type LifecycleResumeResult =
     };
 
 export function getDesktopWorkspace(width: number): DesktopWorkspace {
-  const mode = resolveLayoutMode(width) === 'desktop-2pane' ? 'two-pane' : 'single';
+  const mode = resolveLayoutMode(width) === 'desktop-two-pane' ? 'two-pane' : 'single';
 
   if (mode === 'two-pane') {
     return {
@@ -38,6 +46,28 @@ export function getDesktopWorkspace(width: number): DesktopWorkspace {
     mode,
     primaryColumns: 12,
     secondaryColumns: 0,
+  };
+}
+
+export function evaluateDesktopTaskGuardrails(input: {
+  width: number;
+  interactionsToPrimaryAction: number;
+  horizontalScrollRequired: boolean;
+  secondaryPaneBlocksPrimaryTask: boolean;
+}): DesktopTaskGuardrails {
+  const workspace = getDesktopWorkspace(input.width);
+  const maxInteractionsToPrimaryAction = workspace.mode === 'two-pane' ? 2 : 2;
+  const primaryTaskReachable =
+    input.interactionsToPrimaryAction <= maxInteractionsToPrimaryAction &&
+    !input.horizontalScrollRequired &&
+    !input.secondaryPaneBlocksPrimaryTask;
+
+  return {
+    mode: workspace.mode,
+    maxInteractionsToPrimaryAction,
+    horizontalScrollRequired: input.horizontalScrollRequired,
+    secondaryPaneBlocksPrimaryTask: input.secondaryPaneBlocksPrimaryTask,
+    primaryTaskReachable,
   };
 }
 

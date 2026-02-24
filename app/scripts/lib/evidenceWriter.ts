@@ -20,6 +20,7 @@ export type EvidenceBundleInput = {
     filename: string;
     content: unknown;
   }>;
+  verificationResultsAppendix?: string;
   evidenceRootDir?: string;
   now?: () => Date;
 };
@@ -49,7 +50,7 @@ export function buildEvidenceBundlePath(input: {
   return resolve(root, input.releaseId, input.gateId, input.bundleId);
 }
 
-function buildVerificationResultsMarkdown(results: VerificationRuleResult[]): string {
+function buildVerificationResultsMarkdown(results: VerificationRuleResult[], appendix?: string): string {
   const sorted = [...results].sort((left, right) => left.verificationId.localeCompare(right.verificationId));
   const lines = [
     '# Verification Results',
@@ -64,7 +65,12 @@ function buildVerificationResultsMarkdown(results: VerificationRuleResult[]): st
     );
   }
 
-  return `${lines.join('\n')}\n`;
+  const base = `${lines.join('\n')}\n`;
+  if (!appendix) {
+    return base;
+  }
+
+  return `${base}\n${appendix.trim()}\n`;
 }
 
 function serializeRawArtifact(content: unknown): string {
@@ -149,7 +155,7 @@ export function writeEvidenceBundle(input: EvidenceBundleInput): EvidenceBundleW
 
   writeFileSync(
     verificationResultsPath,
-    buildVerificationResultsMarkdown(input.results),
+    buildVerificationResultsMarkdown(input.results, input.verificationResultsAppendix),
     'utf8',
   );
 

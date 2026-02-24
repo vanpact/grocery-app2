@@ -1,0 +1,14 @@
+{
+  "releaseId": "RC-2026-02-24",
+  "successCriteria": {
+    "sc006": "pass",
+    "sc007": "pass",
+    "sc008": "ready"
+  },
+  "metrics": {
+    "totalRuns": 10,
+    "runsWithin90Seconds": 9,
+    "completionRatePct": 90
+  },
+  "reasonCodes": []
+}

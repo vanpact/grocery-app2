@@ -1,4 +1,5 @@
 import { pathToFileURL } from 'node:url';
+import { resolve } from 'node:path';
 import { loadTargetProfilesFromConfig, resolveTargetProfile } from '../src/runtime/targetProfiles';
 import { resolveRequiredConfigPath } from './lib/configPath';
 import { runCommittedVerification, type RuleStatusOverride } from './lib/runCommittedVerification';
@@ -60,7 +61,7 @@ export function runFullVerification(input: FullVerificationInput): FullVerificat
     approvals: input.approvals,
     requiredOwners: input.requiredOwners,
     statusOverrides: input.statusOverrides,
-    evidenceRootDir: input.evidenceRootDir,
+    evidenceRootDir: input.evidenceRootDir ?? resolve(process.cwd(), '..', 'evidence'),
     now: input.now,
   });
 }

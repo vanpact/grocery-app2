@@ -69,7 +69,7 @@ export async function runStartAndroidEmulator(
   input: StartAndroidEmulatorInput = {},
 ): Promise<StartAndroidEmulatorResult> {
   const runQuick = input.runQuick ?? runQuickVerification;
-  const quick = await runQuick({ targetAlias: input.targetAlias });
+  const quick = await runQuick({ targetAlias: input.targetAlias, useConfiguredAccountFallback: true });
 
   const startupGate = await runStartupGate({
     targetAlias: quick.targetAlias,

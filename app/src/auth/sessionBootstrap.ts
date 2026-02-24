@@ -6,11 +6,11 @@ export type Session = {
   role: Role;
 };
 
-export type MembershipRecoveryAction = 'retry' | 'sign_out';
+export type MembershipRecoveryAction = 'retry_membership' | 'sign_out';
 
 export class MembershipRequiredError extends Error {
   readonly code = 'membership_required';
-  readonly recoveryActions: MembershipRecoveryAction[] = ['retry', 'sign_out'];
+  readonly recoveryActions: MembershipRecoveryAction[] = ['retry_membership', 'sign_out'];
 
   constructor() {
     super('No household membership found.');

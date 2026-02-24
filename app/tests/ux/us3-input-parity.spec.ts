@@ -1,13 +1,22 @@
 import { describe, expect, it } from 'vitest';
 
-import { toCommittedAction } from '../../src/ui/web/interactionParity';
+import { compareKeyboardPointerOutcomes, toCommittedAction } from '../../src/ui/web/interactionParity';
+import { loadUsabilityFixtures } from '../helpers/usability';
 
 describe('US3 input parity web', () => {
-  it('produces the same committed action for keyboard and pointer', () => {
-    const keyboard = toCommittedAction('keyboard', 'Enter', 'validate-item');
-    const pointer = toCommittedAction('pointer', 'click', 'validate-item');
+  it('produces equivalent outcomes for add/validate/offline-recovery scenarios', () => {
+    const fixtures = loadUsabilityFixtures();
+    for (const scenario of fixtures.layoutAndParity.parityScenarios) {
+      const keyboard = toCommittedAction('keyboard', scenario.keyboardTrigger, scenario.intent);
+      const pointer = toCommittedAction('pointer', scenario.pointerTrigger, scenario.intent);
+      const comparison = compareKeyboardPointerOutcomes({
+        scenarioId: scenario.scenarioId,
+        keyboardActions: [keyboard],
+        pointerActions: [pointer],
+      });
 
-    expect(keyboard).toEqual(pointer);
-    expect(keyboard).toEqual({ type: 'validate', source: 'validate-item' });
+      expect(comparison.parity).toBe('pass');
+      expect(comparison.keyboardHash).toBe(comparison.pointerHash);
+    }
   });
 });

@@ -24,7 +24,7 @@ export type BootstrapAppResult = {
   startupGate: StartupGateResult;
   queueReadiness: QueueReadiness;
   session: Session | null;
-  recoveryActions: Array<'retry' | 'sign_out'>;
+  recoveryActions: Array<'retry' | 'retry_membership' | 'sign_out'>;
 };
 
 export type BootstrapAppInput = {

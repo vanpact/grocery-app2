@@ -1,0 +1,8 @@
+{
+  "verificationId": "VR-COM-009-RESPONSIVE-LAYOUT-COVERAGE",
+  "status": "pass",
+  "evidenceRefs": [
+    "raw-data/VR-COM-009-RESPONSIVE-LAYOUT-COVERAGE.json"
+  ],
+  "notes": null
+}

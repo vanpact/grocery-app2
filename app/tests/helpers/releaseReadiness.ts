@@ -7,7 +7,15 @@ type BuildWorkspaceInput = {
   releaseId?: string;
   gateId?: string;
   bundleId?: string;
-  missingArtifacts?: Array<'manifest.json' | 'verification-results.md' | 'raw-data' | 'decision.json' | 'approvals.json'>;
+  missingArtifacts?: Array<
+    | 'manifest.json'
+    | 'verification-results.md'
+    | 'raw-data'
+    | 'raw-data/ui-usability-task-runs.json'
+    | 'raw-data/ui-usability-summary.json'
+    | 'decision.json'
+    | 'approvals.json'
+  >;
   malformedArtifacts?: Array<'manifest.json' | 'decision.json' | 'approvals.json'>;
   releaseMismatch?: boolean;
   requiredOwners?: string[];
@@ -24,6 +32,12 @@ type BuildWorkspaceInput = {
   includeBundle?: boolean;
   includeVerificationFile?: boolean;
   includeFieldCoverageFile?: boolean;
+  includeUsabilityArtifacts?: boolean;
+  usabilitySummaryOverrides?: {
+    sc006?: 'pass' | 'fail';
+    sc007?: 'pass' | 'fail';
+    sc008?: 'ready' | 'not_ready';
+  };
 };
 
 export type ReleaseReadinessWorkspace = {
@@ -52,6 +66,7 @@ export function createReleaseReadinessWorkspace(input: BuildWorkspaceInput = {})
   const includeBundle = input.includeBundle ?? true;
   const includeVerificationFile = input.includeVerificationFile ?? true;
   const includeFieldCoverageFile = input.includeFieldCoverageFile ?? true;
+  const includeUsabilityArtifacts = input.includeUsabilityArtifacts ?? true;
 
   const canonicalSources = loadCanonicalSources();
   const committedVerificationIds = canonicalSources.committedVerificationIds;
@@ -123,6 +138,74 @@ export function createReleaseReadinessWorkspace(input: BuildWorkspaceInput = {})
     if (!missingArtifacts.has('raw-data')) {
       mkdirSync(rawDataPath, { recursive: true });
       writeFileSync(join(rawDataPath, 'sample.json'), `${JSON.stringify({ status: 'ok' }, null, 2)}\n`, 'utf8');
+      if (includeUsabilityArtifacts) {
+        if (!missingArtifacts.has('raw-data/ui-usability-task-runs.json')) {
+          writeFileSync(
+            join(rawDataPath, 'ui-usability-task-runs.json'),
+            `${JSON.stringify(
+              {
+                releaseId,
+                taskRuns: [
+                  {
+                    runId: 'android-touch-01',
+                    platform: 'android',
+                    inputMode: 'touch',
+                    flow: 'core-add-validate',
+                    durationSeconds: 75,
+                    completed: true,
+                    deterministic: true,
+                  },
+                  {
+                    runId: 'web-keyboard-01',
+                    platform: 'web',
+                    inputMode: 'keyboard',
+                    flow: 'core-add-validate',
+                    durationSeconds: 79,
+                    completed: true,
+                    deterministic: true,
+                  },
+                  {
+                    runId: 'web-pointer-01',
+                    platform: 'web',
+                    inputMode: 'pointer',
+                    flow: 'core-add-validate',
+                    durationSeconds: 82,
+                    completed: true,
+                    deterministic: true,
+                  },
+                ],
+              },
+              null,
+              2,
+            )}\n`,
+            'utf8',
+          );
+        }
+        if (!missingArtifacts.has('raw-data/ui-usability-summary.json')) {
+          writeFileSync(
+            join(rawDataPath, 'ui-usability-summary.json'),
+            `${JSON.stringify(
+              {
+                releaseId,
+                successCriteria: {
+                  sc006: input.usabilitySummaryOverrides?.sc006 ?? 'pass',
+                  sc007: input.usabilitySummaryOverrides?.sc007 ?? 'pass',
+                  sc008: input.usabilitySummaryOverrides?.sc008 ?? 'ready',
+                },
+                metrics: {
+                  totalRuns: 3,
+                  runsWithin90Seconds: 3,
+                  completionRatePct: 100,
+                },
+                reasonCodes: [],
+              },
+              null,
+              2,
+            )}\n`,
+            'utf8',
+          );
+        }
+      }
     }
 
     if (!missingArtifacts.has('verification-results.md')) {

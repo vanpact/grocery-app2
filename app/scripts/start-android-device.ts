@@ -69,7 +69,7 @@ export async function runStartAndroidDevice(
   input: StartAndroidDeviceInput = {},
 ): Promise<StartAndroidDeviceResult> {
   const runQuick = input.runQuick ?? runQuickVerification;
-  const quick = await runQuick({ targetAlias: input.targetAlias });
+  const quick = await runQuick({ targetAlias: input.targetAlias, useConfiguredAccountFallback: true });
 
   const startupGate = await runStartupGate({
     targetAlias: quick.targetAlias,
