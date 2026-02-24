@@ -64,6 +64,24 @@ export function validateEvidenceBundles(input: EvidenceValidationInput): Evidenc
       continue;
     }
 
+    const decisionValue = asString(bundle.decision.decision);
+    if (!decisionValue) {
+      missingArtifacts.push(`invalid_payload:${bundle.gateId}/${bundle.bundleId}/decision.json:decision`);
+      continue;
+    }
+
+    const decisionRationale = asString(bundle.decision.rationale);
+    if (!decisionRationale) {
+      missingArtifacts.push(`invalid_payload:${bundle.gateId}/${bundle.bundleId}/decision.json:rationale`);
+      continue;
+    }
+
+    const decisionTimestamp = asString(bundle.decision.decided_at_utc);
+    if (!decisionTimestamp) {
+      missingArtifacts.push(`invalid_payload:${bundle.gateId}/${bundle.bundleId}/decision.json:decided_at_utc`);
+      continue;
+    }
+
     const approvalsGateId = asString(bundle.approvals.gate_id);
     if (approvalsGateId !== bundle.gateId) {
       missingArtifacts.push(`gate_mismatch:${bundle.gateId}/${bundle.bundleId}/approvals.json`);

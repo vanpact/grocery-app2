@@ -51,7 +51,14 @@ export function evaluateCommittedVerificationOutcomes(
     }
 
     const entry = entries[0];
-    const deterministic = entry.deterministic ?? true;
+    const deterministicValue = entry.deterministic as unknown;
+    if (deterministicValue !== undefined && typeof deterministicValue !== 'boolean') {
+      failingVerificationIds.push(committedVerificationId);
+      evaluationIssues.push(`invalid_deterministic_outcome:${committedVerificationId}`);
+      continue;
+    }
+
+    const deterministic = deterministicValue ?? true;
     if (!deterministic) {
       failingVerificationIds.push(committedVerificationId);
       evaluationIssues.push(`non_deterministic_outcome:${committedVerificationId}`);
