@@ -105,4 +105,36 @@ describe('release evidence malformed json', () => {
       `invalid_json_array:${workspace.verificationOutcomesPath}:optionalOutcomes`,
     );
   });
+
+  it('returns not_ready when optional field scenarios is not an array in optional scope', () => {
+    const workspace = createReleaseReadinessWorkspace();
+    writeFileSync(
+      workspace.fieldTestCoveragePath,
+      `${JSON.stringify(
+        {
+          releaseId: workspace.releaseId,
+          scenarios: workspace.committedFieldScenarioIds.map((scenarioId) => ({
+            scenarioId,
+            status: 'pass',
+          })),
+          optionalScenarios: { malformed: true },
+        },
+        null,
+        2,
+      )}\n`,
+      'utf8',
+    );
+
+    const output = runReleaseReadiness({
+      releaseId: workspace.releaseId,
+      scope: 'committed_plus_optional',
+      evidenceRootPath: workspace.evidenceRootPath,
+      now: () => new Date('2026-02-23T12:00:00.000Z'),
+    });
+
+    expect(output.report.status).toBe('not_ready');
+    expect(output.report.missingArtifacts).toContain(
+      `invalid_json_array:${workspace.fieldTestCoveragePath}:optionalScenarios`,
+    );
+  });
 });

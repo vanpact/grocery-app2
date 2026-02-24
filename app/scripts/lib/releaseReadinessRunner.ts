@@ -112,7 +112,7 @@ function evaluateOptionalFieldScenarios(
   scope: ReleaseReadinessScope,
   optionalScenarios: FieldTestCoverageFile['optionalScenarios'],
 ): string[] {
-  if (scope !== 'committed_plus_optional' || !optionalScenarios) {
+  if (scope !== 'committed_plus_optional' || !Array.isArray(optionalScenarios)) {
     return [];
   }
 
@@ -191,6 +191,9 @@ export function runReleaseReadiness(input: RunReleaseReadinessInput): RunRelease
   }
   if (fieldCoverageFile && fieldCoverageFile.scenarios !== undefined && !Array.isArray(fieldCoverageFile.scenarios)) {
     missingArtifacts.push(`invalid_json_array:${fieldTestCoveragePath}:scenarios`);
+  }
+  if (fieldCoverageFile && fieldCoverageFile.optionalScenarios !== undefined && !Array.isArray(fieldCoverageFile.optionalScenarios)) {
+    missingArtifacts.push(`invalid_json_array:${fieldTestCoveragePath}:optionalScenarios`);
   }
 
   const fieldCoverageValidation = validateCommittedFieldTestCoverage({
