@@ -11,13 +11,13 @@ Auto-generated from all feature plans. Last updated: 2026-02-23
 ## Project Structure
 
 ```text
-src/
-tests/
+app/src/
+app/tests/
 ```
 
 ## Commands
 
-npm test && npm run lint
+cd app && npm test && npm run lint
 
 ## Code Style
 
