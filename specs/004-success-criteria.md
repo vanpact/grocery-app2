@@ -27,7 +27,8 @@ Parsed from the Spec Kit `spec-template.md` Success Criteria section.
 - **SC-008** (`VR-COM-008-M3E-COMPONENT-MAPPING`): Sign-in, Active Shopping, Overview, and
   Settings use canonical MD3 component families.
 - **SC-009** (`VR-COM-009-RESPONSIVE-LAYOUT-COVERAGE`): Layout contract passes at `<600`,
-  `600-839`, `840-1199`, and `>=1200` breakpoints.
+  `600-839`, `840-1199`, and `>=1200` breakpoints. Non-finite viewport widths MUST fail
+  closed to the `<600` mobile layout.
 - **SC-010** (`VR-COM-010-INPUT-PARITY-WEB`): Keyboard-only web flow matches pointer outcomes for
   add, validate, and offline recovery.
 

@@ -236,6 +236,8 @@ export type LayoutMode = {
 | `840-1199` | `navigation_rail` | `single_pane` | `hybrid_touch_keyboard_mouse` |
 | `>=1200` | `navigation_rail` | `two_pane` | `hybrid_touch_keyboard_mouse` |
 
+If viewport width is non-finite (`NaN`, `Infinity`, `-Infinity`), layout must fail closed to the `<600` mobile contract.
+
 Desktop default (`>=1200`):
 - Left pane: persistent navigation rail and context controls.
 - Right pane: Active Shopping workspace with two-pane composition.
