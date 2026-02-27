@@ -1,0 +1,27 @@
+{
+  "releaseId": "RC-2026-02-24",
+  "successCriteria": {
+    "sc001": "pass",
+    "sc002": "pass",
+    "sc003": "pass",
+    "sc004": "pass",
+    "sc005": "pass",
+    "sc006": "pass",
+    "sc007": "pass"
+  },
+  "metrics": {
+    "totalRecognitionRuns": 10,
+    "recognizedWithin5sPct": 90,
+    "baselineMedianSeconds": 99,
+    "refreshedMedianSeconds": 69.5,
+    "improvementPct": 29.798,
+    "mistapRatePct": 2.6764,
+    "clarityAverage": 4.195,
+    "responsivePassRatePct": 100,
+    "parityPassRatePct": 100,
+    "accessibilityPassRatePct": 100
+  },
+  "missingArtifacts": [],
+  "finalStatus": "ready",
+  "reasonCodes": []
+}

@@ -4,25 +4,25 @@
       "id": "mobile",
       "width": 375,
       "expectedBand": "<600",
-      "expectedLayout": "mobile"
+      "expectedLayout": "single-pane"
     },
     {
       "id": "tablet-compact",
       "width": 768,
       "expectedBand": "600-839",
-      "expectedLayout": "tablet"
+      "expectedLayout": "single-pane"
     },
     {
       "id": "tablet-wide",
       "width": 1024,
       "expectedBand": "840-1199",
-      "expectedLayout": "tablet"
+      "expectedLayout": "single-pane"
     },
     {
       "id": "desktop",
       "width": 1280,
       "expectedBand": ">=1200",
-      "expectedLayout": "desktop-two-pane"
+      "expectedLayout": "two-pane"
     }
   ],
   "parityScenarios": [

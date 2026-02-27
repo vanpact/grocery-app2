@@ -1,21 +1,17 @@
 <!--
 Sync Impact Report
-Version change: template -> 1.0.0
+Version change: 1.0.0 -> 1.1.0
 Modified principles:
-- Template Principle 1 -> I. Think Before Coding
-- Template Principle 2 -> II. Simplicity First
-- Template Principle 3 -> III. Surgical Changes
-- Template Principle 4 -> IV. Goal-Driven Verification
-- Template Principle 5 -> V. Contract and Reliability Invariants
+- V. Contract and Reliability Invariants -> V. Contract and Reliability Invariants
+  (expanded with mandatory `playwright` + `mobile-mcp` UI verification evidence)
 Added sections:
-- Product and Technical Constraints
-- Delivery Workflow and Quality Gates
+- None
 Removed sections:
 - None
 Templates requiring updates:
 - ✅ updated .specify/templates/plan-template.md
-- ✅ updated .specify/templates/spec-template.md
-- ✅ updated .specify/templates/tasks-template.md
+- ✅ reviewed .specify/templates/spec-template.md (no changes required)
+- ✅ reviewed .specify/templates/tasks-template.md (no changes required)
 - ⚠ pending .specify/templates/commands/*.md (directory not present in repository)
 Follow-up TODOs:
 - None
@@ -53,7 +49,9 @@ independent delivery.
 All work MUST remain consistent with canonical product documents in `specs/00`, `10`,
 `20`, and `30`, respecting their ownership boundaries. Security and reliability baselines
 are non-negotiable: role model (`suggest`, `validate`), deny-by-default authorization,
-household isolation, and offline replay without data loss or duplicate net effects.
+household isolation, and offline replay without data loss or duplicate net effects. Any
+UI behavior change affecting web or Android MUST include verification evidence from
+`playwright` (web flow capture) and `mobile-mcp` (mobile flow capture).
 Rationale: these invariants define release safety for the Grocery App baseline.
 
 ## Product and Technical Constraints
@@ -66,6 +64,8 @@ Rationale: these invariants define release safety for the Grocery App baseline.
   `conditional` and `exploratory` features are gate-controlled and fail-closed.
 - UX commitments for Material 3 Expressive and responsive breakpoint behavior are binding
   for all committed flows.
+- UI verification tooling is mandatory for UI-affecting changes: `playwright` for web
+  checks and `mobile-mcp` for Android/mobile checks.
 
 ## Delivery Workflow and Quality Gates
 
@@ -73,8 +73,9 @@ Rationale: these invariants define release safety for the Grocery App baseline.
 2. Map the change to the affected canonical source-of-truth docs and verify no ownership
    boundary conflicts are introduced.
 3. Implement the smallest viable change set that satisfies the criteria.
-4. Execute required tests and verification checks; for non-committed work, record gate
-   evidence and retain/cut decision artifacts.
+4. Execute required tests and verification checks; for UI-affecting work, include
+   `playwright` and `mobile-mcp` evidence; for non-committed work, record gate evidence
+   and retain/cut decision artifacts.
 5. Confirm compliance in review by checking constitution principles, security invariants,
    and release-facing verification references.
 
@@ -93,4 +94,4 @@ Rationale: these invariants define release safety for the Grocery App baseline.
 - Any temporary exception MUST be documented with scope, justification, owner, and expiry
   in the relevant plan or PR notes.
 
-**Version**: 1.0.0 | **Ratified**: 2026-02-22 | **Last Amended**: 2026-02-22
+**Version**: 1.1.0 | **Ratified**: 2026-02-22 | **Last Amended**: 2026-02-24

@@ -152,6 +152,18 @@ export type QuickWinsTimingReport = {
 
 export type CommittedDestination = 'sign-in' | 'active-shopping' | 'overview' | 'settings';
 
+export type RefreshedDestination = CommittedDestination;
+
+export type RefreshedPlatform = 'web' | 'android';
+
+export type ViewportBand = '<600' | '600-839' | '840-1199' | '>=1200';
+
+export type NavigationPattern = 'top-wrapped' | 'top-single-row';
+
+export type LayoutMode = 'single-pane' | 'two-pane';
+
+export type SecondaryPaneMode = 'context-only' | 'n/a';
+
 export type FeedbackState = 'empty' | 'loading' | 'error' | 'offline' | 'membership-required' | 'reconnecting';
 
 export type RecoveryAction = 'retry' | 'continue' | 'retry_connection' | 'retry_membership' | 'sign_out';
@@ -169,12 +181,15 @@ export type ScreenUsabilitySnapshot = {
   recoveryActions: RecoveryAction[];
   hasSilentFailure: boolean;
   viewportWidth: number;
-  layoutMode: 'mobile' | 'tablet' | 'desktop-two-pane';
+  viewportBand: ViewportBand;
+  layoutMode: LayoutMode;
+  navigationPattern: NavigationPattern;
+  secondaryPaneMode: SecondaryPaneMode;
 };
 
 export type UiUsabilityTaskRun = {
   runId: string;
-  platform: 'android' | 'web';
+  platform: RefreshedPlatform;
   inputMode: 'touch' | 'keyboard' | 'pointer';
   flow: 'core-add-validate';
   durationSeconds: number;
@@ -182,33 +197,126 @@ export type UiUsabilityTaskRun = {
   deterministic: boolean;
 };
 
+export type UiPrimaryActionRecognitionRun = {
+  participantId: string;
+  platform: RefreshedPlatform;
+  screenId: RefreshedDestination;
+  secondsToPrimaryAction: number;
+  recognizedOnFirstAttempt: boolean;
+};
+
+export type UiMistapControlEvent = {
+  controlId: string;
+  platform: RefreshedPlatform;
+  attempts: number;
+  mistaps: number;
+};
+
+export type UiClarityFeedbackResponse = {
+  sessionId: string;
+  platform: RefreshedPlatform;
+  navigationClarityScore: number;
+  actionHierarchyScore: number;
+};
+
+export type UiResponsiveLayoutCheck = {
+  screenId: RefreshedDestination;
+  viewportBand: ViewportBand;
+  passed: boolean;
+};
+
+export type UiInputParityCheck = {
+  scenarioId: string;
+  passed: boolean;
+};
+
+export type UiAccessibilityCheck = {
+  screenId: RefreshedDestination;
+  platform: RefreshedPlatform;
+  focusVisibilityPass: boolean;
+  keyboardTraversalPass: boolean | 'n/a';
+  textScalingPass: boolean;
+  touchTargetPass: boolean;
+  finalStatus: 'pass' | 'fail';
+};
+
+export type UiEvidenceTool = 'playwright' | 'mobile-mcp';
+
+export type UiToolArtifact = {
+  releaseId: string;
+  tool: UiEvidenceTool;
+  platform: RefreshedPlatform;
+  screenId: RefreshedDestination;
+  scenarioId: string;
+  artifactPath: string;
+  status: 'captured' | 'missing';
+};
+
+export type UiBeforeAfterPair = {
+  releaseId: string;
+  screenId: RefreshedDestination;
+  platform: RefreshedPlatform;
+  beforeArtifactPath: string;
+  afterArtifactPath: string;
+  status: 'paired' | 'missing';
+};
+
 export type UiUsabilityEvidenceInput = {
   releaseId: string;
-  taskRuns: UiUsabilityTaskRun[];
+  baselineTaskRuns: UiUsabilityTaskRun[];
+  refreshedTaskRuns: UiUsabilityTaskRun[];
+  actionRecognitionRuns: UiPrimaryActionRecognitionRun[];
+  mistapEvents: UiMistapControlEvent[];
+  clarityFeedback: UiClarityFeedbackResponse[];
+  responsiveLayoutChecks: UiResponsiveLayoutCheck[];
+  inputParityChecks: UiInputParityCheck[];
+  accessibilityChecks: UiAccessibilityCheck[];
+  toolArtifacts: UiToolArtifact[];
+  beforeAfterPairs: UiBeforeAfterPair[];
 };
 
 export type UiUsabilityEvaluation = {
   releaseId: string;
-  totalRuns: number;
-  runsWithin90Seconds: number;
-  completionRatePct: number;
-  sc006Status: 'pass' | 'fail';
-  sc007Status: 'pass' | 'fail';
+  totalRecognitionRuns: number;
+  recognizedWithin5sPct: number;
+  baselineMedianSeconds: number;
+  refreshedMedianSeconds: number;
+  improvementPct: number;
+  mistapRatePct: number;
+  clarityAverage: number;
+  responsivePassRatePct: number;
+  parityPassRatePct: number;
+  accessibilityPassRatePct: number;
+  successCriteria: {
+    sc001: 'pass' | 'fail';
+    sc002: 'pass' | 'fail';
+    sc003: 'pass' | 'fail';
+    sc004: 'pass' | 'fail';
+    sc005: 'pass' | 'fail';
+    sc006: 'pass' | 'fail';
+    sc007: 'pass' | 'fail';
+  };
+  missingArtifacts: string[];
   finalStatus: 'ready' | 'not_ready';
   reasonCodes: string[];
 };
 
 export type UiUsabilitySummaryReport = {
   releaseId: string;
-  successCriteria: {
-    sc006: 'pass' | 'fail';
-    sc007: 'pass' | 'fail';
-    sc008: 'ready' | 'not_ready';
-  };
+  successCriteria: UiUsabilityEvaluation['successCriteria'];
   metrics: {
-    totalRuns: number;
-    runsWithin90Seconds: number;
-    completionRatePct: number;
+    totalRecognitionRuns: number;
+    recognizedWithin5sPct: number;
+    baselineMedianSeconds: number;
+    refreshedMedianSeconds: number;
+    improvementPct: number;
+    mistapRatePct: number;
+    clarityAverage: number;
+    responsivePassRatePct: number;
+    parityPassRatePct: number;
+    accessibilityPassRatePct: number;
   };
+  missingArtifacts: string[];
+  finalStatus: 'ready' | 'not_ready';
   reasonCodes: string[];
 };

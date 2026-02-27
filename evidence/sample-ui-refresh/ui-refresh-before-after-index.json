@@ -1,0 +1,61 @@
+{
+  "releaseId": "RC-2026-02-24",
+  "pairs": [
+    {
+      "screenId": "sign-in",
+      "platform": "web",
+      "beforeArtifactPath": "artifacts/playwright/before/sign-in.png",
+      "afterArtifactPath": "artifacts/playwright/after/sign-in.png",
+      "status": "paired"
+    },
+    {
+      "screenId": "sign-in",
+      "platform": "android",
+      "beforeArtifactPath": "artifacts/mobile/before/sign-in.png",
+      "afterArtifactPath": "artifacts/mobile/after/sign-in.png",
+      "status": "paired"
+    },
+    {
+      "screenId": "active-shopping",
+      "platform": "web",
+      "beforeArtifactPath": "artifacts/playwright/before/active-shopping.png",
+      "afterArtifactPath": "artifacts/playwright/after/active-shopping.png",
+      "status": "paired"
+    },
+    {
+      "screenId": "active-shopping",
+      "platform": "android",
+      "beforeArtifactPath": "artifacts/mobile/before/active-shopping.png",
+      "afterArtifactPath": "artifacts/mobile/after/active-shopping.png",
+      "status": "paired"
+    },
+    {
+      "screenId": "overview",
+      "platform": "web",
+      "beforeArtifactPath": "artifacts/playwright/before/overview.png",
+      "afterArtifactPath": "artifacts/playwright/after/overview.png",
+      "status": "paired"
+    },
+    {
+      "screenId": "overview",
+      "platform": "android",
+      "beforeArtifactPath": "artifacts/mobile/before/overview.png",
+      "afterArtifactPath": "artifacts/mobile/after/overview.png",
+      "status": "paired"
+    },
+    {
+      "screenId": "settings",
+      "platform": "web",
+      "beforeArtifactPath": "artifacts/playwright/before/settings.png",
+      "afterArtifactPath": "artifacts/playwright/after/settings.png",
+      "status": "paired"
+    },
+    {
+      "screenId": "settings",
+      "platform": "android",
+      "beforeArtifactPath": "artifacts/mobile/before/settings.png",
+      "afterArtifactPath": "artifacts/mobile/after/settings.png",
+      "status": "paired"
+    }
+  ]
+}

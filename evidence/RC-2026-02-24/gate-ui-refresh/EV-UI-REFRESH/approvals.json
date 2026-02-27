@@ -1,0 +1,13 @@
+{
+  "gate_id": "gate-ui-refresh",
+  "bundle_id": "EV-UI-REFRESH",
+  "required_owners": [
+    "Engineering Lead",
+    "Security Owner"
+  ],
+  "approvals": [
+    "Engineering Lead",
+    "Security Owner"
+  ],
+  "approved_at_utc": "2026-02-24T23:21:50.194Z"
+}

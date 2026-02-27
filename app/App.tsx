@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
-import { SafeAreaView, ScrollView, View } from 'react-native';
+import { SafeAreaView, ScrollView, View, useWindowDimensions } from 'react-native';
 import {
   Appbar,
   Banner,
@@ -16,6 +16,7 @@ import { addItemWithDedup } from './src/items/itemWriteService';
 import { bootstrapApp } from './src/runtime/bootstrapApp';
 import { type CommittedDestination, type RecoveryAction } from './src/runtime/contracts';
 import { type Item } from './src/types';
+import { getDesktopWorkspace } from './src/ui/layout/DesktopWorkspace';
 import { buildActiveShoppingScreenModel } from './src/ui/screens/ActiveShoppingScreen';
 import {
   buildCommittedScreenModel,
@@ -98,11 +99,11 @@ function getRuntimeFeedbackState(runtime: AppRuntimeState): 'loading' | 'error' 
 
 function actionLabel(action: RecoveryAction): string {
   if (action === 'continue') {
-    return 'Continue offline';
+    return 'Continue in offline mode';
   }
 
   if (action === 'retry_connection') {
-    return 'Retry connection';
+    return 'Retry sync connection';
   }
 
   if (action === 'retry') {
@@ -110,13 +111,14 @@ function actionLabel(action: RecoveryAction): string {
   }
 
   if (action === 'retry_membership') {
-    return 'Retry membership';
+    return 'Retry membership lookup';
   }
 
-  return 'Sign out';
+  return 'Sign out of household';
 }
 
 export default function App() {
+  const { width } = useWindowDimensions();
   const [runtime, setRuntime] = useState<AppRuntimeState>({
     status: 'loading',
     reason: 'generic',
@@ -212,9 +214,16 @@ export default function App() {
 
   const feedbackState = getRuntimeFeedbackState(runtime);
   const destinationModel = useMemo(
-    () => buildCommittedScreenModel({ destination: activeRoute, state: feedbackState, viewportWidth: 1024 }),
-    [activeRoute, feedbackState],
+    () =>
+      buildCommittedScreenModel({
+        destination: activeRoute,
+        selectedDestination: activeRoute,
+        state: feedbackState,
+        viewportWidth: width,
+      }),
+    [activeRoute, feedbackState, width],
   );
+  const desktopWorkspace = useMemo(() => getDesktopWorkspace(width), [width]);
 
   const activeShoppingModel = useMemo(
     () =>
@@ -349,10 +358,10 @@ export default function App() {
                 Sign in
               </Button>
               <Button mode="outlined" onPress={() => handleRecoveryAction('retry_membership')}>
-                Retry membership
+                Retry membership lookup
               </Button>
               <Button mode="contained-tonal" onPress={() => handleRecoveryAction('sign_out')}>
-                Sign out
+                Sign out of household
               </Button>
             </View>
           </Card.Content>
@@ -368,10 +377,10 @@ export default function App() {
             <Paragraph>{`Validated items: ${validatedCount}`}</Paragraph>
             <Paragraph>{`Draft items: ${draftCount}`}</Paragraph>
             <Button mode="outlined" onPress={handleReviewProgress}>
-              Review progress
+              Review current progress
             </Button>
             <Button mode="contained" onPress={() => setActiveRoute('active-shopping')}>
-              Open active shopping
+              Open active shopping workspace
             </Button>
           </Card.Content>
         </Card>
@@ -386,16 +395,16 @@ export default function App() {
             <Paragraph>Session and recovery controls.</Paragraph>
             <View style={{ gap: 8 }}>
               <Button mode="outlined" onPress={handleManageAccount}>
-                Manage account
+                Manage account settings
               </Button>
               <Button mode="outlined" onPress={() => handleRecoveryAction('retry')}>
                 Retry startup checks
               </Button>
               <Button mode="outlined" onPress={() => handleRecoveryAction('retry_membership')}>
-                Retry membership
+                Retry membership lookup
               </Button>
               <Button mode="contained-tonal" onPress={() => handleRecoveryAction('sign_out')}>
-                Sign out
+                Sign out of household
               </Button>
             </View>
           </Card.Content>
@@ -403,12 +412,13 @@ export default function App() {
       );
     }
 
-    return (
+    const primaryPane = (
       <Card>
         <Card.Content>
           <Title>Active Shopping</Title>
           <Paragraph>{`Validated items: ${validatedCount}`}</Paragraph>
           <Paragraph>{`Draft items: ${draftCount}`}</Paragraph>
+          <Paragraph>{activeShoppingModel.listStateMessage}</Paragraph>
           {activeShoppingModel.offlineIndicator ? <Paragraph>{activeShoppingModel.offlineIndicator}</Paragraph> : null}
           {activeShoppingModel.recoveryStates.map((state) => (
             <View key={state.state} style={{ gap: 8 }}>
@@ -431,28 +441,49 @@ export default function App() {
               placeholder="Add item"
             />
             <Button mode="contained" onPress={handleAddItem}>
-              Add item
+              Add item to list
             </Button>
             <Button mode="outlined" onPress={handleValidateNextDraft}>
-              Validate item
+              Validate next item
             </Button>
             <Button mode="outlined" onPress={() => setIsOffline(true)}>
-              Continue offline
+              Continue in offline mode
             </Button>
             <Button mode="outlined" onPress={handleRetryConnection}>
-              Retry connection
+              Retry sync connection
             </Button>
           </View>
         </Card.Content>
-        {activeShoppingModel.validatedItems.map((item) => (
+        {activeShoppingModel.listRows.map((row) => (
           <List.Item
-            key={item.itemId}
-            title={item.name}
-            description={item.qty ? `${item.qty}${item.unit ? ` ${item.unit}` : ''}` : 'No quantity'}
+            key={row.itemId}
+            title={row.label}
+            description={row.quantityBadge}
             left={(props) => <List.Icon {...props} icon="cart-outline" />}
           />
         ))}
       </Card>
+    );
+
+    if (desktopWorkspace.mode !== 'two-pane') {
+      return primaryPane;
+    }
+
+    return (
+      <View style={{ flexDirection: 'row', gap: 12 }}>
+        <View style={{ flex: 2 }}>{primaryPane}</View>
+        <View style={{ flex: 1 }}>
+          <Card>
+            <Card.Content>
+              <Title>Context</Title>
+              <Paragraph>Secondary pane is context-only.</Paragraph>
+              <Paragraph>{`List state: ${activeShoppingModel.listPresentationState}`}</Paragraph>
+              <Paragraph>{`Replay status: ${activeShoppingModel.reconnectingIndicator ?? 'Idle'}`}</Paragraph>
+              <Paragraph>{`Last refresh: ${activeShoppingModel.lastReplayRefreshAtUtc ?? 'Not available'}`}</Paragraph>
+            </Card.Content>
+          </Card>
+        </View>
+      </View>
     );
   }
 
@@ -463,12 +494,22 @@ export default function App() {
           <Appbar.Content title="Grocery App" subtitle={subtitle} />
         </Appbar.Header>
 
-        <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8, paddingHorizontal: 16, paddingVertical: 8 }}>
+        <View
+          style={{
+            flexDirection: 'row',
+            flexWrap: destinationModel.navigationWraps ? 'wrap' : 'nowrap',
+            gap: 8,
+            paddingHorizontal: 16,
+            paddingVertical: 8,
+          }}
+        >
           {routes.map((route) => (
             <Button
               key={route.destination}
               mode={route.destination === activeRoute ? 'contained' : 'outlined'}
               onPress={() => setActiveRoute(route.destination)}
+              accessibilityLabel={`${route.label} navigation destination`}
+              style={{ minHeight: 44 }}
             >
               {route.label}
             </Button>
@@ -481,6 +522,9 @@ export default function App() {
               <Title>Startup Status</Title>
               <Paragraph>{runtime.message}</Paragraph>
               <Paragraph>{`Screen: ${destinationModel.title}`}</Paragraph>
+              <Paragraph>{destinationModel.selectedStateLabel}</Paragraph>
+              <Paragraph>{`Navigation pattern: ${destinationModel.navigationPattern}`}</Paragraph>
+              <Paragraph>{`Layout mode: ${destinationModel.layoutMode}`}</Paragraph>
               {runtime.blockedReasons.length > 0 ? (
                 <Paragraph>{`Blocked reasons: ${runtime.blockedReasons.join(', ')}`}</Paragraph>
               ) : null}

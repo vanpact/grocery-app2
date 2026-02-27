@@ -5,7 +5,16 @@ import {
   type ScreenUsabilitySnapshot,
 } from '../../runtime/contracts';
 import { getStateFeedback } from '../components/StateFeedback';
-import { resolveLayoutMode, resolveViewportBand, type LayoutMode, type ViewportBand } from '../layout/layoutModeResolver';
+import {
+  resolveLayoutMode,
+  resolveNavigationPattern,
+  resolveSecondaryPaneMode,
+  resolveViewportBand,
+  type LayoutMode,
+  type NavigationPattern,
+  type SecondaryPaneMode,
+  type ViewportBand,
+} from '../layout/layoutModeResolver';
 
 export const COMMITTED_LATENCY_BUDGETS = {
   actionP95Ms: 300,
@@ -23,8 +32,13 @@ export type CommittedDestinationModel = {
   destination: CommittedDestination;
   title: string;
   routeKey: string;
+  heading: string;
+  body: string;
+  selectedStateLabel: string;
   navigationEntryPoints: string[];
   primaryActions: string[];
+  secondaryActions: string[];
+  destructiveActions: string[];
 };
 
 const DESTINATION_MODELS: Record<CommittedDestination, CommittedDestinationModel> = {
@@ -32,31 +46,60 @@ const DESTINATION_MODELS: Record<CommittedDestination, CommittedDestinationModel
     destination: 'sign-in',
     title: 'Sign In',
     routeKey: 'SignIn',
+    heading: 'Sign in to continue',
+    body: 'Use your household account to resume shopping.',
+    selectedStateLabel: 'Current screen: Sign In',
     navigationEntryPoints: ['app-start', 'settings-sign-out'],
-    primaryActions: ['Sign in', 'Retry membership', 'Sign out'],
+    primaryActions: ['Sign in'],
+    secondaryActions: ['Retry membership lookup'],
+    destructiveActions: ['Sign out of household'],
   },
   'active-shopping': {
     destination: 'active-shopping',
     title: 'Active Shopping',
     routeKey: 'ActiveShopping',
+    heading: 'Shop and validate quickly',
+    body: 'Add items first, then validate each draft item.',
+    selectedStateLabel: 'Current screen: Active Shopping',
     navigationEntryPoints: ['bottom-nav-home', 'overview-to-active'],
-    primaryActions: ['Add item', 'Validate item', 'Continue offline', 'Retry connection'],
+    primaryActions: ['Add item to list'],
+    secondaryActions: ['Validate next item', 'Continue in offline mode', 'Retry sync connection'],
+    destructiveActions: [],
   },
   overview: {
     destination: 'overview',
     title: 'Overview',
     routeKey: 'Overview',
+    heading: 'Review household progress',
+    body: 'Scan validated and draft totals before returning to shopping.',
+    selectedStateLabel: 'Current screen: Overview',
     navigationEntryPoints: ['bottom-nav-overview', 'active-to-overview'],
-    primaryActions: ['Review progress', 'Open active shopping'],
+    primaryActions: ['Review current progress'],
+    secondaryActions: ['Open active shopping workspace'],
+    destructiveActions: [],
   },
   settings: {
     destination: 'settings',
     title: 'Settings',
     routeKey: 'Settings',
+    heading: 'Manage account and recovery',
+    body: 'Use recovery actions only when session checks fail.',
+    selectedStateLabel: 'Current screen: Settings',
     navigationEntryPoints: ['bottom-nav-settings', 'header-settings'],
-    primaryActions: ['Manage account', 'Sign out'],
+    primaryActions: ['Manage account settings'],
+    secondaryActions: ['Retry startup checks', 'Retry membership lookup'],
+    destructiveActions: ['Sign out of household'],
   },
 };
+
+function normalizeActionCopy(label: string): string {
+  return label.trim().toLowerCase();
+}
+
+function evaluateActionCopyUniqueness(actions: string[]): 'pass' | 'fail' {
+  const normalized = actions.map(normalizeActionCopy);
+  return new Set(normalized).size === normalized.length ? 'pass' : 'fail';
+}
 
 export function evaluateLatencyBudget(input: { actionP95Ms: number; routeTransitionMs: number }) {
   const actionWithinBudget = input.actionP95Ms <= COMMITTED_LATENCY_BUDGETS.actionP95Ms;
@@ -119,7 +162,13 @@ export function getCommittedScreenFamilyMapping() {
 }
 
 export function getCommittedDestinationModels(): CommittedDestinationModel[] {
-  return COMMITTED_DESTINATIONS.map((destination) => DESTINATION_MODELS[destination]);
+  return COMMITTED_DESTINATIONS.map((destination) => {
+    const model = DESTINATION_MODELS[destination];
+    return {
+      ...model,
+      primaryActions: [...model.primaryActions, ...model.secondaryActions, ...model.destructiveActions],
+    };
+  });
 }
 
 export function getCommittedDestinationModel(destination: CommittedDestination): CommittedDestinationModel {
@@ -130,34 +179,63 @@ export function buildCommittedScreenModel(input: {
   destination?: CommittedDestination;
   state: FeedbackState;
   viewportWidth: number;
+  selectedDestination?: CommittedDestination;
 }) {
   const destination = input.destination ?? 'active-shopping';
   const destinationModel = getCommittedDestinationModel(destination);
   const layoutMode: LayoutMode = resolveLayoutMode(input.viewportWidth);
   const viewportBand: ViewportBand = resolveViewportBand(input.viewportWidth);
+  const navigationPattern: NavigationPattern = resolveNavigationPattern(input.viewportWidth);
+  const secondaryPaneMode: SecondaryPaneMode = resolveSecondaryPaneMode(input.viewportWidth);
   const feedback = getStateFeedback(input.state);
+  const selectedDestination = input.selectedDestination ?? destination;
+  const allActionCopy = [
+    ...destinationModel.primaryActions,
+    ...destinationModel.secondaryActions,
+    ...destinationModel.destructiveActions,
+    ...feedback.recoveryActions.map((action) => action.replace(/_/g, ' ')),
+  ];
+  const copyUniquenessStatus = evaluateActionCopyUniqueness(allActionCopy);
 
   const snapshot: ScreenUsabilitySnapshot = {
     destination,
     state: input.state,
-    primaryActions: [...destinationModel.primaryActions],
+    primaryActions: [...destinationModel.primaryActions, ...destinationModel.secondaryActions],
     recoveryActions: [...feedback.recoveryActions],
     hasSilentFailure: feedback.message.trim().length === 0,
     viewportWidth: input.viewportWidth,
+    viewportBand,
     layoutMode,
+    navigationPattern,
+    secondaryPaneMode,
   };
 
   return {
     destination,
     routeKey: destinationModel.routeKey,
     title: destinationModel.title,
+    heading: destinationModel.heading,
+    body: destinationModel.body,
     layoutMode,
     viewportBand,
+    navigationPattern,
+    secondaryPaneMode,
     feedback,
     md3Component: MD3_STATE_MAPPING[input.state],
     md3ScreenFamily: MD3_SCREEN_FAMILY_MAPPING[destination],
     navigationEntryPoints: [...destinationModel.navigationEntryPoints],
     primaryActions: [...destinationModel.primaryActions],
+    secondaryActions: [...destinationModel.secondaryActions],
+    destructiveActions: [...destinationModel.destructiveActions],
+    actionCopyUniqueness: copyUniquenessStatus,
+    controlFeedbackStates: ['idle', 'focused', 'pressed', 'disabled'] as const,
+    selectedDestination,
+    selectedStateVisible: selectedDestination === destination,
+    selectedStateLabel: destinationModel.selectedStateLabel,
+    navigationDestinations: [...COMMITTED_DESTINATIONS],
+    navigationWraps: navigationPattern === 'top-wrapped',
+    desktopTwoPaneContextOnly:
+      viewportBand !== '>=1200' ? true : layoutMode === 'two-pane' && secondaryPaneMode === 'context-only',
     recoveryActions: [...feedback.recoveryActions] as RecoveryAction[],
     snapshot,
   };

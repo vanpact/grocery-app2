@@ -1,0 +1,19 @@
+{
+  "releaseId": "RC-2026-02-24",
+  "mistapRatePct": 3.4,
+  "sc003Status": "pass",
+  "controls": [
+    {
+      "controlId": "add-item",
+      "platform": "web",
+      "attempts": 120,
+      "mistaps": 3
+    },
+    {
+      "controlId": "validate-item",
+      "platform": "android",
+      "attempts": 118,
+      "mistaps": 3
+    }
+  ]
+}

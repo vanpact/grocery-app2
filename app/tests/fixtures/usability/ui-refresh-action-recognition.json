@@ -1,0 +1,75 @@
+{
+  "releaseId": "RC-2026-02-24",
+  "runs": [
+    {
+      "participantId": "P-01",
+      "platform": "web",
+      "screenId": "active-shopping",
+      "secondsToPrimaryAction": 3.2,
+      "recognizedOnFirstAttempt": true
+    },
+    {
+      "participantId": "P-02",
+      "platform": "android",
+      "screenId": "active-shopping",
+      "secondsToPrimaryAction": 4.7,
+      "recognizedOnFirstAttempt": true
+    },
+    {
+      "participantId": "P-03",
+      "platform": "web",
+      "screenId": "overview",
+      "secondsToPrimaryAction": 4.1,
+      "recognizedOnFirstAttempt": true
+    },
+    {
+      "participantId": "P-04",
+      "platform": "android",
+      "screenId": "sign-in",
+      "secondsToPrimaryAction": 3.9,
+      "recognizedOnFirstAttempt": true
+    },
+    {
+      "participantId": "P-05",
+      "platform": "web",
+      "screenId": "settings",
+      "secondsToPrimaryAction": 4.8,
+      "recognizedOnFirstAttempt": true
+    },
+    {
+      "participantId": "P-06",
+      "platform": "android",
+      "screenId": "active-shopping",
+      "secondsToPrimaryAction": 4.2,
+      "recognizedOnFirstAttempt": true
+    },
+    {
+      "participantId": "P-07",
+      "platform": "web",
+      "screenId": "active-shopping",
+      "secondsToPrimaryAction": 3.6,
+      "recognizedOnFirstAttempt": true
+    },
+    {
+      "participantId": "P-08",
+      "platform": "android",
+      "screenId": "overview",
+      "secondsToPrimaryAction": 4.4,
+      "recognizedOnFirstAttempt": true
+    },
+    {
+      "participantId": "P-09",
+      "platform": "web",
+      "screenId": "settings",
+      "secondsToPrimaryAction": 5.8,
+      "recognizedOnFirstAttempt": false
+    },
+    {
+      "participantId": "P-10",
+      "platform": "android",
+      "screenId": "sign-in",
+      "secondsToPrimaryAction": 3.1,
+      "recognizedOnFirstAttempt": true
+    }
+  ]
+}

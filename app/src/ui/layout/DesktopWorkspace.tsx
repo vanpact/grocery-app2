@@ -1,16 +1,20 @@
 import { resolveLayoutMode } from './layoutModeResolver';
 
 export type DesktopWorkspace = {
-  mode: 'single' | 'two-pane';
+  mode: 'single-pane' | 'two-pane';
   primaryColumns: number;
   secondaryColumns: number;
+  secondaryPaneMode: 'context-only' | 'n/a';
+  stateChangingControlsInPrimaryPane: boolean;
 };
 
 export type DesktopTaskGuardrails = {
-  mode: 'single' | 'two-pane';
+  mode: 'single-pane' | 'two-pane';
   maxInteractionsToPrimaryAction: number;
   horizontalScrollRequired: boolean;
   secondaryPaneBlocksPrimaryTask: boolean;
+  contextOnlySecondaryPane: boolean;
+  stateChangingControlsOutsidePrimaryPane: boolean;
   primaryTaskReachable: boolean;
 };
 
@@ -32,13 +36,15 @@ export type LifecycleResumeResult =
     };
 
 export function getDesktopWorkspace(width: number): DesktopWorkspace {
-  const mode = resolveLayoutMode(width) === 'desktop-two-pane' ? 'two-pane' : 'single';
+  const mode = resolveLayoutMode(width);
 
   if (mode === 'two-pane') {
     return {
       mode,
       primaryColumns: 8,
       secondaryColumns: 4,
+      secondaryPaneMode: 'context-only',
+      stateChangingControlsInPrimaryPane: true,
     };
   }
 
@@ -46,6 +52,8 @@ export function getDesktopWorkspace(width: number): DesktopWorkspace {
     mode,
     primaryColumns: 12,
     secondaryColumns: 0,
+    secondaryPaneMode: 'n/a',
+    stateChangingControlsInPrimaryPane: true,
   };
 }
 
@@ -54,19 +62,25 @@ export function evaluateDesktopTaskGuardrails(input: {
   interactionsToPrimaryAction: number;
   horizontalScrollRequired: boolean;
   secondaryPaneBlocksPrimaryTask: boolean;
+  stateChangingControlsOutsidePrimaryPane?: boolean;
 }): DesktopTaskGuardrails {
   const workspace = getDesktopWorkspace(input.width);
-  const maxInteractionsToPrimaryAction = workspace.mode === 'two-pane' ? 2 : 2;
+  const stateChangingControlsOutsidePrimaryPane = input.stateChangingControlsOutsidePrimaryPane ?? false;
+  const maxInteractionsToPrimaryAction = 2;
   const primaryTaskReachable =
     input.interactionsToPrimaryAction <= maxInteractionsToPrimaryAction &&
     !input.horizontalScrollRequired &&
-    !input.secondaryPaneBlocksPrimaryTask;
+    !input.secondaryPaneBlocksPrimaryTask &&
+    !stateChangingControlsOutsidePrimaryPane;
+  const contextOnlySecondaryPane = workspace.mode !== 'two-pane' || !stateChangingControlsOutsidePrimaryPane;
 
   return {
     mode: workspace.mode,
     maxInteractionsToPrimaryAction,
     horizontalScrollRequired: input.horizontalScrollRequired,
     secondaryPaneBlocksPrimaryTask: input.secondaryPaneBlocksPrimaryTask,
+    contextOnlySecondaryPane,
+    stateChangingControlsOutsidePrimaryPane,
     primaryTaskReachable,
   };
 }

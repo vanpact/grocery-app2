@@ -58,8 +58,15 @@ export function readEvidenceBundles(input: { releaseEvidenceRootPath: string }):
       const approvalsPath = join(bundlePath, 'approvals.json');
       const verificationResultsPath = join(bundlePath, 'verification-results.md');
       const rawDataPath = join(bundlePath, 'raw-data');
-      const uiUsabilityTaskRunsPath = join(rawDataPath, 'ui-usability-task-runs.json');
-      const uiUsabilitySummaryPath = join(rawDataPath, 'ui-usability-summary.json');
+      const uiRefreshTaskRunsPath = join(rawDataPath, 'ui-refresh-task-runs.json');
+      const uiRefreshSummaryPath = join(rawDataPath, 'ui-refresh-usability-summary.json');
+      const uiRefreshPlaywrightArtifactsPath = join(rawDataPath, 'ui-refresh-playwright-artifacts.json');
+      const uiRefreshMobileArtifactsPath = join(rawDataPath, 'ui-refresh-mobile-mcp-artifacts.json');
+      const uiRefreshBeforeAfterPath = join(rawDataPath, 'ui-refresh-before-after-index.json');
+      const uiRefreshAccessibilityPath = join(rawDataPath, 'ui-refresh-accessibility-summary.json');
+      const uiRefreshTimingPath = join(rawDataPath, 'ui-refresh-timing-summary.json');
+      const uiRefreshClarityPath = join(rawDataPath, 'ui-refresh-clarity-summary.json');
+      const uiRefreshMistapPath = join(rawDataPath, 'ui-refresh-mistap-summary.json');
 
       const missingArtifacts: string[] = [];
       const parseErrors: string[] = [];
@@ -79,11 +86,32 @@ export function readEvidenceBundles(input: { releaseEvidenceRootPath: string }):
       if (!existsSync(rawDataPath) || !statSync(rawDataPath).isDirectory()) {
         missingArtifacts.push('raw-data');
       }
-      if (!existsSync(uiUsabilityTaskRunsPath)) {
-        missingArtifacts.push('raw-data/ui-usability-task-runs.json');
+      if (!existsSync(uiRefreshTaskRunsPath)) {
+        missingArtifacts.push('raw-data/ui-refresh-task-runs.json');
       }
-      if (!existsSync(uiUsabilitySummaryPath)) {
-        missingArtifacts.push('raw-data/ui-usability-summary.json');
+      if (!existsSync(uiRefreshSummaryPath)) {
+        missingArtifacts.push('raw-data/ui-refresh-usability-summary.json');
+      }
+      if (!existsSync(uiRefreshPlaywrightArtifactsPath)) {
+        missingArtifacts.push('raw-data/ui-refresh-playwright-artifacts.json');
+      }
+      if (!existsSync(uiRefreshMobileArtifactsPath)) {
+        missingArtifacts.push('raw-data/ui-refresh-mobile-mcp-artifacts.json');
+      }
+      if (!existsSync(uiRefreshBeforeAfterPath)) {
+        missingArtifacts.push('raw-data/ui-refresh-before-after-index.json');
+      }
+      if (!existsSync(uiRefreshAccessibilityPath)) {
+        missingArtifacts.push('raw-data/ui-refresh-accessibility-summary.json');
+      }
+      if (!existsSync(uiRefreshTimingPath)) {
+        missingArtifacts.push('raw-data/ui-refresh-timing-summary.json');
+      }
+      if (!existsSync(uiRefreshClarityPath)) {
+        missingArtifacts.push('raw-data/ui-refresh-clarity-summary.json');
+      }
+      if (!existsSync(uiRefreshMistapPath)) {
+        missingArtifacts.push('raw-data/ui-refresh-mistap-summary.json');
       }
 
       let manifest: Record<string, unknown> | undefined;
@@ -115,8 +143,8 @@ export function readEvidenceBundles(input: { releaseEvidenceRootPath: string }):
         }
       }
 
-      if (existsSync(uiUsabilitySummaryPath)) {
-        const parsedSummary = readJsonFile(uiUsabilitySummaryPath);
+      if (existsSync(uiRefreshSummaryPath)) {
+        const parsedSummary = readJsonFile(uiRefreshSummaryPath);
         uiUsabilitySummary = parsedSummary.value;
         if (parsedSummary.error) {
           parseErrors.push(parsedSummary.error);

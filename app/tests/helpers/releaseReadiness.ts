@@ -11,8 +11,15 @@ type BuildWorkspaceInput = {
     | 'manifest.json'
     | 'verification-results.md'
     | 'raw-data'
-    | 'raw-data/ui-usability-task-runs.json'
-    | 'raw-data/ui-usability-summary.json'
+    | 'raw-data/ui-refresh-task-runs.json'
+    | 'raw-data/ui-refresh-playwright-artifacts.json'
+    | 'raw-data/ui-refresh-mobile-mcp-artifacts.json'
+    | 'raw-data/ui-refresh-before-after-index.json'
+    | 'raw-data/ui-refresh-accessibility-summary.json'
+    | 'raw-data/ui-refresh-timing-summary.json'
+    | 'raw-data/ui-refresh-clarity-summary.json'
+    | 'raw-data/ui-refresh-mistap-summary.json'
+    | 'raw-data/ui-refresh-usability-summary.json'
     | 'decision.json'
     | 'approvals.json'
   >;
@@ -34,9 +41,13 @@ type BuildWorkspaceInput = {
   includeFieldCoverageFile?: boolean;
   includeUsabilityArtifacts?: boolean;
   usabilitySummaryOverrides?: {
+    sc001?: 'pass' | 'fail';
+    sc002?: 'pass' | 'fail';
+    sc003?: 'pass' | 'fail';
+    sc004?: 'pass' | 'fail';
+    sc005?: 'pass' | 'fail';
     sc006?: 'pass' | 'fail';
     sc007?: 'pass' | 'fail';
-    sc008?: 'ready' | 'not_ready';
   };
 };
 
@@ -139,37 +150,66 @@ export function createReleaseReadinessWorkspace(input: BuildWorkspaceInput = {})
       mkdirSync(rawDataPath, { recursive: true });
       writeFileSync(join(rawDataPath, 'sample.json'), `${JSON.stringify({ status: 'ok' }, null, 2)}\n`, 'utf8');
       if (includeUsabilityArtifacts) {
-        if (!missingArtifacts.has('raw-data/ui-usability-task-runs.json')) {
+        if (!missingArtifacts.has('raw-data/ui-refresh-task-runs.json')) {
           writeFileSync(
-            join(rawDataPath, 'ui-usability-task-runs.json'),
+            join(rawDataPath, 'ui-refresh-task-runs.json'),
             `${JSON.stringify(
               {
                 releaseId,
-                taskRuns: [
+                baselineRuns: [
                   {
-                    runId: 'android-touch-01',
+                    runId: 'baseline-android-touch-01',
                     platform: 'android',
                     inputMode: 'touch',
                     flow: 'core-add-validate',
-                    durationSeconds: 75,
+                    durationSeconds: 102,
                     completed: true,
                     deterministic: true,
                   },
                   {
-                    runId: 'web-keyboard-01',
+                    runId: 'baseline-web-keyboard-01',
                     platform: 'web',
                     inputMode: 'keyboard',
                     flow: 'core-add-validate',
-                    durationSeconds: 79,
+                    durationSeconds: 97,
                     completed: true,
                     deterministic: true,
                   },
                   {
-                    runId: 'web-pointer-01',
+                    runId: 'baseline-web-pointer-01',
                     platform: 'web',
                     inputMode: 'pointer',
                     flow: 'core-add-validate',
-                    durationSeconds: 82,
+                    durationSeconds: 95,
+                    completed: true,
+                    deterministic: true,
+                  },
+                ],
+                refreshedRuns: [
+                  {
+                    runId: 'refresh-android-touch-01',
+                    platform: 'android',
+                    inputMode: 'touch',
+                    flow: 'core-add-validate',
+                    durationSeconds: 68,
+                    completed: true,
+                    deterministic: true,
+                  },
+                  {
+                    runId: 'refresh-web-keyboard-01',
+                    platform: 'web',
+                    inputMode: 'keyboard',
+                    flow: 'core-add-validate',
+                    durationSeconds: 70,
+                    completed: true,
+                    deterministic: true,
+                  },
+                  {
+                    runId: 'refresh-web-pointer-01',
+                    platform: 'web',
+                    inputMode: 'pointer',
+                    flow: 'core-add-validate',
+                    durationSeconds: 72,
                     completed: true,
                     deterministic: true,
                   },
@@ -181,22 +221,269 @@ export function createReleaseReadinessWorkspace(input: BuildWorkspaceInput = {})
             'utf8',
           );
         }
-        if (!missingArtifacts.has('raw-data/ui-usability-summary.json')) {
+        if (!missingArtifacts.has('raw-data/ui-refresh-playwright-artifacts.json')) {
           writeFileSync(
-            join(rawDataPath, 'ui-usability-summary.json'),
+            join(rawDataPath, 'ui-refresh-playwright-artifacts.json'),
+            `${JSON.stringify(
+              {
+                releaseId,
+                tool: 'playwright',
+                platform: 'web',
+                scenarios: [
+                  {
+                    screenId: 'sign-in',
+                    scenarioId: 'sign-in-web',
+                    artifactPath: 'artifacts/playwright/sign-in.png',
+                    status: 'captured',
+                  },
+                  {
+                    screenId: 'active-shopping',
+                    scenarioId: 'active-shopping-web',
+                    artifactPath: 'artifacts/playwright/active-shopping.png',
+                    status: 'captured',
+                  },
+                  {
+                    screenId: 'overview',
+                    scenarioId: 'overview-web',
+                    artifactPath: 'artifacts/playwright/overview.png',
+                    status: 'captured',
+                  },
+                  {
+                    screenId: 'settings',
+                    scenarioId: 'settings-web',
+                    artifactPath: 'artifacts/playwright/settings.png',
+                    status: 'captured',
+                  },
+                ],
+              },
+              null,
+              2,
+            )}\n`,
+            'utf8',
+          );
+        }
+        if (!missingArtifacts.has('raw-data/ui-refresh-mobile-mcp-artifacts.json')) {
+          writeFileSync(
+            join(rawDataPath, 'ui-refresh-mobile-mcp-artifacts.json'),
+            `${JSON.stringify(
+              {
+                releaseId,
+                tool: 'mobile-mcp',
+                platform: 'android',
+                scenarios: [
+                  {
+                    screenId: 'sign-in',
+                    scenarioId: 'sign-in-android',
+                    artifactPath: 'artifacts/mobile/sign-in.png',
+                    status: 'captured',
+                  },
+                  {
+                    screenId: 'active-shopping',
+                    scenarioId: 'active-shopping-android',
+                    artifactPath: 'artifacts/mobile/active-shopping.png',
+                    status: 'captured',
+                  },
+                  {
+                    screenId: 'overview',
+                    scenarioId: 'overview-android',
+                    artifactPath: 'artifacts/mobile/overview.png',
+                    status: 'captured',
+                  },
+                  {
+                    screenId: 'settings',
+                    scenarioId: 'settings-android',
+                    artifactPath: 'artifacts/mobile/settings.png',
+                    status: 'captured',
+                  },
+                ],
+              },
+              null,
+              2,
+            )}\n`,
+            'utf8',
+          );
+        }
+        if (!missingArtifacts.has('raw-data/ui-refresh-before-after-index.json')) {
+          writeFileSync(
+            join(rawDataPath, 'ui-refresh-before-after-index.json'),
+            `${JSON.stringify(
+              {
+                releaseId,
+                pairs: [
+                  {
+                    screenId: 'sign-in',
+                    platform: 'web',
+                    beforeArtifactPath: 'artifacts/playwright/before/sign-in.png',
+                    afterArtifactPath: 'artifacts/playwright/after/sign-in.png',
+                    status: 'paired',
+                  },
+                  {
+                    screenId: 'sign-in',
+                    platform: 'android',
+                    beforeArtifactPath: 'artifacts/mobile/before/sign-in.png',
+                    afterArtifactPath: 'artifacts/mobile/after/sign-in.png',
+                    status: 'paired',
+                  },
+                  {
+                    screenId: 'active-shopping',
+                    platform: 'web',
+                    beforeArtifactPath: 'artifacts/playwright/before/active-shopping.png',
+                    afterArtifactPath: 'artifacts/playwright/after/active-shopping.png',
+                    status: 'paired',
+                  },
+                  {
+                    screenId: 'active-shopping',
+                    platform: 'android',
+                    beforeArtifactPath: 'artifacts/mobile/before/active-shopping.png',
+                    afterArtifactPath: 'artifacts/mobile/after/active-shopping.png',
+                    status: 'paired',
+                  },
+                  {
+                    screenId: 'overview',
+                    platform: 'web',
+                    beforeArtifactPath: 'artifacts/playwright/before/overview.png',
+                    afterArtifactPath: 'artifacts/playwright/after/overview.png',
+                    status: 'paired',
+                  },
+                  {
+                    screenId: 'overview',
+                    platform: 'android',
+                    beforeArtifactPath: 'artifacts/mobile/before/overview.png',
+                    afterArtifactPath: 'artifacts/mobile/after/overview.png',
+                    status: 'paired',
+                  },
+                  {
+                    screenId: 'settings',
+                    platform: 'web',
+                    beforeArtifactPath: 'artifacts/playwright/before/settings.png',
+                    afterArtifactPath: 'artifacts/playwright/after/settings.png',
+                    status: 'paired',
+                  },
+                  {
+                    screenId: 'settings',
+                    platform: 'android',
+                    beforeArtifactPath: 'artifacts/mobile/before/settings.png',
+                    afterArtifactPath: 'artifacts/mobile/after/settings.png',
+                    status: 'paired',
+                  },
+                ],
+              },
+              null,
+              2,
+            )}\n`,
+            'utf8',
+          );
+        }
+        if (!missingArtifacts.has('raw-data/ui-refresh-accessibility-summary.json')) {
+          writeFileSync(
+            join(rawDataPath, 'ui-refresh-accessibility-summary.json'),
+            `${JSON.stringify(
+              {
+                releaseId,
+                checks: [
+                  {
+                    screenId: 'sign-in',
+                    platform: 'web',
+                    focusVisibilityPass: true,
+                    keyboardTraversalPass: true,
+                    textScalingPass: true,
+                    touchTargetPass: true,
+                    finalStatus: 'pass',
+                  },
+                ],
+              },
+              null,
+              2,
+            )}\n`,
+            'utf8',
+          );
+        }
+        if (!missingArtifacts.has('raw-data/ui-refresh-timing-summary.json')) {
+          writeFileSync(
+            join(rawDataPath, 'ui-refresh-timing-summary.json'),
+            `${JSON.stringify(
+              {
+                releaseId,
+                baselineMedianSeconds: 98,
+                refreshedMedianSeconds: 70,
+                improvementPct: 28.5714,
+                sc002Status: input.usabilitySummaryOverrides?.sc002 ?? 'pass',
+              },
+              null,
+              2,
+            )}\n`,
+            'utf8',
+          );
+        }
+        if (!missingArtifacts.has('raw-data/ui-refresh-clarity-summary.json')) {
+          writeFileSync(
+            join(rawDataPath, 'ui-refresh-clarity-summary.json'),
+            `${JSON.stringify(
+              {
+                releaseId,
+                averageScore: 4.2,
+                sc006Status: input.usabilitySummaryOverrides?.sc006 ?? 'pass',
+              },
+              null,
+              2,
+            )}\n`,
+            'utf8',
+          );
+        }
+        if (!missingArtifacts.has('raw-data/ui-refresh-mistap-summary.json')) {
+          writeFileSync(
+            join(rawDataPath, 'ui-refresh-mistap-summary.json'),
+            `${JSON.stringify(
+              {
+                releaseId,
+                mistapRatePct: 3.4,
+                sc003Status: input.usabilitySummaryOverrides?.sc003 ?? 'pass',
+              },
+              null,
+              2,
+            )}\n`,
+            'utf8',
+          );
+        }
+        if (!missingArtifacts.has('raw-data/ui-refresh-usability-summary.json')) {
+          writeFileSync(
+            join(rawDataPath, 'ui-refresh-usability-summary.json'),
             `${JSON.stringify(
               {
                 releaseId,
                 successCriteria: {
+                  sc001: input.usabilitySummaryOverrides?.sc001 ?? 'pass',
+                  sc002: input.usabilitySummaryOverrides?.sc002 ?? 'pass',
+                  sc003: input.usabilitySummaryOverrides?.sc003 ?? 'pass',
+                  sc004: input.usabilitySummaryOverrides?.sc004 ?? 'pass',
+                  sc005: input.usabilitySummaryOverrides?.sc005 ?? 'pass',
                   sc006: input.usabilitySummaryOverrides?.sc006 ?? 'pass',
                   sc007: input.usabilitySummaryOverrides?.sc007 ?? 'pass',
-                  sc008: input.usabilitySummaryOverrides?.sc008 ?? 'ready',
                 },
                 metrics: {
-                  totalRuns: 3,
-                  runsWithin90Seconds: 3,
-                  completionRatePct: 100,
+                  totalRecognitionRuns: 10,
+                  recognizedWithin5sPct: 90,
+                  baselineMedianSeconds: 98,
+                  refreshedMedianSeconds: 70,
+                  improvementPct: 28.5714,
+                  mistapRatePct: 3.4,
+                  clarityAverage: 4.2,
+                  responsivePassRatePct: 100,
+                  parityPassRatePct: 100,
+                  accessibilityPassRatePct: 100,
                 },
+                missingArtifacts: [],
+                finalStatus: Object.values({
+                  sc001: input.usabilitySummaryOverrides?.sc001 ?? 'pass',
+                  sc002: input.usabilitySummaryOverrides?.sc002 ?? 'pass',
+                  sc003: input.usabilitySummaryOverrides?.sc003 ?? 'pass',
+                  sc004: input.usabilitySummaryOverrides?.sc004 ?? 'pass',
+                  sc005: input.usabilitySummaryOverrides?.sc005 ?? 'pass',
+                  sc006: input.usabilitySummaryOverrides?.sc006 ?? 'pass',
+                  sc007: input.usabilitySummaryOverrides?.sc007 ?? 'pass',
+                }).every((status) => status === 'pass')
+                  ? 'ready'
+                  : 'not_ready',
                 reasonCodes: [],
               },
               null,

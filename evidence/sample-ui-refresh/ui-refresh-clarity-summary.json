@@ -1,0 +1,20 @@
+{
+  "releaseId": "RC-2026-02-24",
+  "averageScore": 4.2,
+  "responseCount": 10,
+  "sc006Status": "pass",
+  "responses": [
+    {
+      "sessionId": "S-01",
+      "platform": "web",
+      "navigationClarityScore": 4.3,
+      "actionHierarchyScore": 4.1
+    },
+    {
+      "sessionId": "S-02",
+      "platform": "android",
+      "navigationClarityScore": 4.2,
+      "actionHierarchyScore": 4.4
+    }
+  ]
+}

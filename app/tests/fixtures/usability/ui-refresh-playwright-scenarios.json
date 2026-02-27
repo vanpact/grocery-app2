@@ -1,0 +1,31 @@
+{
+  "releaseId": "RC-2026-02-24",
+  "tool": "playwright",
+  "platform": "web",
+  "scenarios": [
+    {
+      "screenId": "sign-in",
+      "scenarioId": "sign-in-entry",
+      "artifactPath": "artifacts/playwright/sign-in-entry.png",
+      "status": "captured"
+    },
+    {
+      "screenId": "active-shopping",
+      "scenarioId": "active-shopping-core-flow",
+      "artifactPath": "artifacts/playwright/active-shopping-core-flow.png",
+      "status": "captured"
+    },
+    {
+      "screenId": "overview",
+      "scenarioId": "overview-scan",
+      "artifactPath": "artifacts/playwright/overview-scan.png",
+      "status": "captured"
+    },
+    {
+      "screenId": "settings",
+      "scenarioId": "settings-recovery",
+      "artifactPath": "artifacts/playwright/settings-recovery.png",
+      "status": "captured"
+    }
+  ]
+}

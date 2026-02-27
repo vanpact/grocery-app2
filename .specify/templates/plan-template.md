@@ -41,6 +41,8 @@
   and `specs/30`.
 - Reliability and security invariants: role policy (`suggest`, `validate`),
   deny-by-default decisions, household isolation, and offline replay safety remain intact.
+- UI verification alignment: when UI-affecting changes are in scope, the plan includes
+  explicit `playwright` (web) and `mobile-mcp` (mobile) verification evidence.
 
 ## Project Structure
 

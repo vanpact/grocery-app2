@@ -3,7 +3,7 @@ import { buildCommittedScreenModel } from '../../src/ui/screens/CommittedScreens
 import { loadUsabilityFixtures } from '../helpers/usability';
 
 describe('US3 state visibility', () => {
-  it('returns explicit messages for all required states across committed destinations', () => {
+  it('returns explicit, non-duplicative messages for all required states across committed destinations', () => {
     const fixtures = loadUsabilityFixtures();
 
     for (const destination of fixtures.stateMatrix.destinations) {
@@ -16,6 +16,11 @@ describe('US3 state visibility', () => {
 
         expect(model.feedback.message.trim().length).toBeGreaterThan(0);
         expect(model.snapshot.hasSilentFailure).toBe(false);
+        const sentenceFragments = model.feedback.message
+          .split('.')
+          .map((fragment) => fragment.trim())
+          .filter((fragment) => fragment.length > 0);
+        expect(new Set(sentenceFragments).size).toBe(sentenceFragments.length);
       }
     }
   });

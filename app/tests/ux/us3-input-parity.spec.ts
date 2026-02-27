@@ -1,7 +1,8 @@
 import { describe, expect, it } from 'vitest';
 
+import { evaluateUiUsabilityEvidence } from '../../scripts/lib/uiUsabilityEvaluation';
 import { compareKeyboardPointerOutcomes, toCommittedAction } from '../../src/ui/web/interactionParity';
-import { loadUsabilityFixtures } from '../helpers/usability';
+import { buildUiRefreshEvidenceInput, loadUsabilityFixtures } from '../helpers/usability';
 
 describe('US3 input parity web', () => {
   it('produces equivalent outcomes for add/validate/offline-recovery scenarios', () => {
@@ -18,5 +19,9 @@ describe('US3 input parity web', () => {
       expect(comparison.parity).toBe('pass');
       expect(comparison.keyboardHash).toBe(comparison.pointerHash);
     }
+
+    const evaluation = evaluateUiUsabilityEvidence(buildUiRefreshEvidenceInput(fixtures));
+    expect(evaluation.successCriteria.sc005).toBe('pass');
+    expect(evaluation.parityPassRatePct).toBe(100);
   });
 });

@@ -1,0 +1,43 @@
+{
+  "releaseId": "RC-2026-02-24",
+  "tool": "playwright",
+  "platform": "web",
+  "scenarios": [
+    {
+      "releaseId": "RC-2026-02-24",
+      "tool": "playwright",
+      "platform": "web",
+      "screenId": "sign-in",
+      "scenarioId": "sign-in-web",
+      "artifactPath": "artifacts/playwright/sign-in.png",
+      "status": "captured"
+    },
+    {
+      "releaseId": "RC-2026-02-24",
+      "tool": "playwright",
+      "platform": "web",
+      "screenId": "active-shopping",
+      "scenarioId": "active-shopping-web",
+      "artifactPath": "artifacts/playwright/active-shopping.png",
+      "status": "captured"
+    },
+    {
+      "releaseId": "RC-2026-02-24",
+      "tool": "playwright",
+      "platform": "web",
+      "screenId": "overview",
+      "scenarioId": "overview-web",
+      "artifactPath": "artifacts/playwright/overview.png",
+      "status": "captured"
+    },
+    {
+      "releaseId": "RC-2026-02-24",
+      "tool": "playwright",
+      "platform": "web",
+      "screenId": "settings",
+      "scenarioId": "settings-web",
+      "artifactPath": "artifacts/playwright/settings.png",
+      "status": "captured"
+    }
+  ]
+}

@@ -1,0 +1,43 @@
+{
+  "releaseId": "RC-2026-02-24",
+  "tool": "mobile-mcp",
+  "platform": "android",
+  "scenarios": [
+    {
+      "releaseId": "RC-2026-02-24",
+      "tool": "mobile-mcp",
+      "platform": "android",
+      "screenId": "sign-in",
+      "scenarioId": "sign-in-android",
+      "artifactPath": "artifacts/mobile/sign-in.png",
+      "status": "captured"
+    },
+    {
+      "releaseId": "RC-2026-02-24",
+      "tool": "mobile-mcp",
+      "platform": "android",
+      "screenId": "active-shopping",
+      "scenarioId": "active-shopping-android",
+      "artifactPath": "artifacts/mobile/active-shopping.png",
+      "status": "captured"
+    },
+    {
+      "releaseId": "RC-2026-02-24",
+      "tool": "mobile-mcp",
+      "platform": "android",
+      "screenId": "overview",
+      "scenarioId": "overview-android",
+      "artifactPath": "artifacts/mobile/overview.png",
+      "status": "captured"
+    },
+    {
+      "releaseId": "RC-2026-02-24",
+      "tool": "mobile-mcp",
+      "platform": "android",
+      "screenId": "settings",
+      "scenarioId": "settings-android",
+      "artifactPath": "artifacts/mobile/settings.png",
+      "status": "captured"
+    }
+  ]
+}

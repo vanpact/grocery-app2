@@ -1,0 +1,55 @@
+{
+  "releaseId": "RC-2026-02-24",
+  "mistapRatePct": 2.6764,
+  "controls": [
+    {
+      "controlId": "add-item",
+      "platform": "web",
+      "attempts": 120,
+      "mistaps": 3
+    },
+    {
+      "controlId": "validate-item",
+      "platform": "web",
+      "attempts": 110,
+      "mistaps": 4
+    },
+    {
+      "controlId": "continue-offline",
+      "platform": "web",
+      "attempts": 90,
+      "mistaps": 2
+    },
+    {
+      "controlId": "retry-connection",
+      "platform": "web",
+      "attempts": 85,
+      "mistaps": 2
+    },
+    {
+      "controlId": "add-item",
+      "platform": "android",
+      "attempts": 125,
+      "mistaps": 4
+    },
+    {
+      "controlId": "validate-item",
+      "platform": "android",
+      "attempts": 118,
+      "mistaps": 3
+    },
+    {
+      "controlId": "continue-offline",
+      "platform": "android",
+      "attempts": 88,
+      "mistaps": 2
+    },
+    {
+      "controlId": "retry-connection",
+      "platform": "android",
+      "attempts": 86,
+      "mistaps": 2
+    }
+  ],
+  "sc003Status": "pass"
+}

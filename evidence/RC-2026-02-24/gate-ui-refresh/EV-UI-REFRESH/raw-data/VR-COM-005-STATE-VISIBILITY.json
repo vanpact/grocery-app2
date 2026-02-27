@@ -1,0 +1,8 @@
+{
+  "verificationId": "VR-COM-005-STATE-VISIBILITY",
+  "status": "pass",
+  "evidenceRefs": [
+    "raw-data/VR-COM-005-STATE-VISIBILITY.json"
+  ],
+  "notes": null
+}

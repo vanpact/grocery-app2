@@ -4,11 +4,15 @@ type RecoveryActionState = 'error' | 'offline' | 'membership-required';
 
 export type Feedback = {
   state: FeedbackState;
+  purpose: 'informational' | 'recovery';
   message: string;
   recoveryActions: RecoveryAction[];
+  recoveryGroupLabel: string;
   accessibility: {
     ariaLabel: string;
     focusIndicatorRequired: boolean;
+    keyboardTraversalOrder: string[];
+    minimumTouchTargetPx: number;
   };
 };
 
@@ -20,11 +24,11 @@ export const RECOVERY_ACTION_CONTRACT: Record<RecoveryActionState, RecoveryActio
 
 const MESSAGES: Record<FeedbackState, string> = {
   empty: 'No items yet. Add your first grocery item to begin.',
-  loading: 'Loading shopping data...',
-  error: 'Something went wrong. Retry to continue.',
-  offline: 'You are offline. Continue offline or retry connection.',
-  'membership-required': 'No household membership found. Retry membership lookup or sign out.',
-  reconnecting: 'Reconnecting... queued changes are replaying in order.',
+  loading: 'Loading shopping data and session context.',
+  error: 'Action failed. Retry to continue this step.',
+  offline: 'Offline mode active. Continue offline or retry sync connection.',
+  'membership-required': 'Membership lookup failed. Retry membership lookup or sign out of household.',
+  reconnecting: 'Reconnecting sync. Queued changes are replaying in deterministic order.',
 };
 
 function toReadableState(state: FeedbackState): string {
@@ -43,13 +47,18 @@ export function getRecoveryActions(state: FeedbackState): RecoveryAction[] {
 }
 
 export function getStateFeedback(state: FeedbackState): Feedback {
+  const recoveryActions = getRecoveryActions(state);
   return {
     state,
+    purpose: recoveryActions.length > 0 ? 'recovery' : 'informational',
     message: MESSAGES[state],
-    recoveryActions: getRecoveryActions(state),
+    recoveryActions,
+    recoveryGroupLabel: recoveryActions.length > 0 ? 'Recovery actions' : 'No recovery actions',
     accessibility: {
       ariaLabel: `${toReadableState(state)} state message`,
       focusIndicatorRequired: true,
+      keyboardTraversalOrder: ['status-message', 'primary-action', 'secondary-actions'],
+      minimumTouchTargetPx: 44,
     },
   };
 }

@@ -24,7 +24,14 @@ describe('US3 evidence bundle mandatory files', () => {
     expect(existsSync(join(bundlePath, 'raw-data'))).toBe(true);
     expect(existsSync(join(bundlePath, 'decision.json'))).toBe(true);
     expect(existsSync(join(bundlePath, 'approvals.json'))).toBe(true);
-    expect(existsSync(join(bundlePath, 'raw-data', 'ui-usability-task-runs.json'))).toBe(true);
-    expect(existsSync(join(bundlePath, 'raw-data', 'ui-usability-summary.json'))).toBe(true);
+    expect(existsSync(join(bundlePath, 'raw-data', 'ui-refresh-task-runs.json'))).toBe(true);
+    expect(existsSync(join(bundlePath, 'raw-data', 'ui-refresh-playwright-artifacts.json'))).toBe(true);
+    expect(existsSync(join(bundlePath, 'raw-data', 'ui-refresh-mobile-mcp-artifacts.json'))).toBe(true);
+    expect(existsSync(join(bundlePath, 'raw-data', 'ui-refresh-before-after-index.json'))).toBe(true);
+    expect(existsSync(join(bundlePath, 'raw-data', 'ui-refresh-accessibility-summary.json'))).toBe(true);
+    expect(existsSync(join(bundlePath, 'raw-data', 'ui-refresh-timing-summary.json'))).toBe(true);
+    expect(existsSync(join(bundlePath, 'raw-data', 'ui-refresh-clarity-summary.json'))).toBe(true);
+    expect(existsSync(join(bundlePath, 'raw-data', 'ui-refresh-mistap-summary.json'))).toBe(true);
+    expect(existsSync(join(bundlePath, 'raw-data', 'ui-refresh-usability-summary.json'))).toBe(true);
   });
 });

@@ -9,7 +9,7 @@ Evidence bundles for release gates are stored under:
 Runnable command path:
 
 ```bash
-npm run verify:full -- --target <alias> --release <release_id> --gate <gate_id> --bundle <bundle_id>
+npm run verify:full -- <alias> <release_id> <gate_id> <bundle_id>
 ```
 
 Startup wrappers and `verify:quick` do not generate full evidence bundles.
@@ -18,7 +18,7 @@ Release-readiness report command:
 
 ```bash
 cd app
-npm run verify:release-readiness -- -- --release <release_id> --scope committed
+npm run verify:release-readiness -- <release_id> committed
 ```
 
 Quick-wins timing verification command:
@@ -33,8 +33,15 @@ npm run verify:quick-wins -- -- --release <release_id> --gate G-QW-01 --bundle E
 - `manifest.json`
 - `verification-results.md`
 - `raw-data/`
-- `raw-data/ui-usability-task-runs.json`
-- `raw-data/ui-usability-summary.json`
+- `raw-data/ui-refresh-task-runs.json`
+- `raw-data/ui-refresh-playwright-artifacts.json`
+- `raw-data/ui-refresh-mobile-mcp-artifacts.json`
+- `raw-data/ui-refresh-before-after-index.json`
+- `raw-data/ui-refresh-accessibility-summary.json`
+- `raw-data/ui-refresh-timing-summary.json`
+- `raw-data/ui-refresh-clarity-summary.json`
+- `raw-data/ui-refresh-mistap-summary.json`
+- `raw-data/ui-refresh-usability-summary.json`
 - `decision.json`
 - `approvals.json`
 
@@ -43,7 +50,7 @@ npm run verify:quick-wins -- -- --release <release_id> --gate G-QW-01 --bundle E
 - [ ] All committed verification refs (`VR-COM-001` through `VR-COM-010`) are listed in `manifest.json`
 - [ ] Mandatory blocker `VR-COM-003-ROLE-TRANSITION-ENFORCEMENT` is marked pass
 - [ ] Raw artifacts for each verification are attached under `raw-data/`
-- [ ] SC-006/SC-007 usability summary is attached and SC-008 readiness state is explicit
+- [ ] UI refresh summary is attached with `SC-001..SC-007` status and readiness state
 - [ ] `decision.json` captures pass/fail/cut with rationale
 - [ ] `approvals.json` includes required owners and timestamps
 
@@ -65,6 +72,16 @@ npm run verify:quick-wins -- -- --release <release_id> --gate G-QW-01 --bundle E
   - `evidence/sample-ui-usability/ui-usability-task-runs.json`
   - `evidence/sample-ui-usability/ui-usability-summary.json`
   - `evidence/sample-ui-usability/README.md`
+- UI refresh artifacts:
+  - `evidence/sample-ui-refresh/ui-refresh-playwright-artifacts.json`
+  - `evidence/sample-ui-refresh/ui-refresh-mobile-mcp-artifacts.json`
+  - `evidence/sample-ui-refresh/ui-refresh-before-after-index.json`
+  - `evidence/sample-ui-refresh/ui-refresh-accessibility-summary.json`
+  - `evidence/sample-ui-refresh/ui-refresh-timing-summary.json`
+  - `evidence/sample-ui-refresh/ui-refresh-clarity-summary.json`
+  - `evidence/sample-ui-refresh/ui-refresh-mistap-summary.json`
+  - `evidence/sample-ui-refresh/ui-refresh-usability-summary.json`
+  - `evidence/sample-ui-refresh/README.md`
 - Feature docs:
   - `specs/001-baseline-spec-bootstrap/quickstart.md`
   - `specs/001-baseline-spec-bootstrap/contracts/security-transition-contract.md`

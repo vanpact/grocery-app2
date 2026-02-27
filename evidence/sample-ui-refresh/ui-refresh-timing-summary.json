@@ -1,0 +1,7 @@
+{
+  "releaseId": "RC-2026-02-24",
+  "baselineMedianSeconds": 98,
+  "refreshedMedianSeconds": 70,
+  "improvementPct": 28.5714,
+  "sc002Status": "pass"
+}

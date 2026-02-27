@@ -26,13 +26,42 @@ describe('US3 responsive layout coverage', () => {
         });
 
         expect(model.viewportBand).toBe(viewport.expectedBand);
+        if (viewport.expectedBand === '<600') {
+          expect(model.navigationPattern).toBe('top-wrapped');
+          expect(model.navigationWraps).toBe(true);
+        }
+        if (viewport.expectedBand === '>=1200') {
+          expect(model.layoutMode).toBe('two-pane');
+          expect(model.secondaryPaneMode).toBe('context-only');
+        }
         expect(model.navigationEntryPoints.length).toBeLessThanOrEqual(2);
       }
     }
   });
 
-  it('falls back to mobile layout when viewport width is non-finite', () => {
-    expect(resolveLayoutMode(Number.NaN)).toBe('mobile');
-    expect(resolveLayoutMode(Number.POSITIVE_INFINITY)).toBe('mobile');
+  it('keeps key controls visible at committed mobile viewport matrix sizes', () => {
+    const committedMobileMatrix = [
+      { width: 360, height: 640 },
+      { width: 390, height: 844 },
+      { width: 412, height: 915 },
+    ];
+
+    for (const viewport of committedMobileMatrix) {
+      const model = buildCommittedScreenModel({
+        destination: 'active-shopping',
+        state: 'loading',
+        viewportWidth: viewport.width,
+      });
+
+      expect(model.primaryActions[0]).toBe('Add item to list');
+      expect(model.navigationPattern).toBe('top-wrapped');
+      expect(model.layoutMode).toBe('single-pane');
+      expect(viewport.height).toBeGreaterThan(0);
+    }
+  });
+
+  it('falls back to single-pane layout when viewport width is non-finite', () => {
+    expect(resolveLayoutMode(Number.NaN)).toBe('single-pane');
+    expect(resolveLayoutMode(Number.POSITIVE_INFINITY)).toBe('single-pane');
   });
 });

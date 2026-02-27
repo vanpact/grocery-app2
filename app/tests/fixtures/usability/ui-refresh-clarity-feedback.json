@@ -1,0 +1,65 @@
+{
+  "releaseId": "RC-2026-02-24",
+  "responses": [
+    {
+      "sessionId": "S-01",
+      "platform": "web",
+      "navigationClarityScore": 4.3,
+      "actionHierarchyScore": 4.1
+    },
+    {
+      "sessionId": "S-02",
+      "platform": "android",
+      "navigationClarityScore": 4.2,
+      "actionHierarchyScore": 4.4
+    },
+    {
+      "sessionId": "S-03",
+      "platform": "web",
+      "navigationClarityScore": 4.1,
+      "actionHierarchyScore": 4.2
+    },
+    {
+      "sessionId": "S-04",
+      "platform": "android",
+      "navigationClarityScore": 4.0,
+      "actionHierarchyScore": 4.3
+    },
+    {
+      "sessionId": "S-05",
+      "platform": "web",
+      "navigationClarityScore": 4.5,
+      "actionHierarchyScore": 4.2
+    },
+    {
+      "sessionId": "S-06",
+      "platform": "android",
+      "navigationClarityScore": 4.1,
+      "actionHierarchyScore": 4.0
+    },
+    {
+      "sessionId": "S-07",
+      "platform": "web",
+      "navigationClarityScore": 4.4,
+      "actionHierarchyScore": 4.1
+    },
+    {
+      "sessionId": "S-08",
+      "platform": "android",
+      "navigationClarityScore": 4.2,
+      "actionHierarchyScore": 4.2
+    },
+    {
+      "sessionId": "S-09",
+      "platform": "web",
+      "navigationClarityScore": 4.1,
+      "actionHierarchyScore": 4.0
+    },
+    {
+      "sessionId": "S-10",
+      "platform": "android",
+      "navigationClarityScore": 4.3,
+      "actionHierarchyScore": 4.2
+    }
+  ]
+}

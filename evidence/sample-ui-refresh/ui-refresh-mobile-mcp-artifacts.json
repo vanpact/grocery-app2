@@ -1,0 +1,31 @@
+{
+  "releaseId": "RC-2026-02-24",
+  "tool": "mobile-mcp",
+  "platform": "android",
+  "scenarios": [
+    {
+      "screenId": "sign-in",
+      "scenarioId": "sign-in-android",
+      "artifactPath": "artifacts/mobile/sign-in.png",
+      "status": "captured"
+    },
+    {
+      "screenId": "active-shopping",
+      "scenarioId": "active-shopping-android",
+      "artifactPath": "artifacts/mobile/active-shopping.png",
+      "status": "captured"
+    },
+    {
+      "screenId": "overview",
+      "scenarioId": "overview-android",
+      "artifactPath": "artifacts/mobile/overview.png",
+      "status": "captured"
+    },
+    {
+      "screenId": "settings",
+      "scenarioId": "settings-android",
+      "artifactPath": "artifacts/mobile/settings.png",
+      "status": "captured"
+    }
+  ]
+}

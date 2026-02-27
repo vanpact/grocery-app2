@@ -1,0 +1,77 @@
+{
+  "releaseId": "RC-2026-02-24",
+  "checks": [
+    {
+      "screenId": "sign-in",
+      "platform": "web",
+      "focusVisibilityPass": true,
+      "keyboardTraversalPass": true,
+      "textScalingPass": true,
+      "touchTargetPass": true,
+      "finalStatus": "pass"
+    },
+    {
+      "screenId": "sign-in",
+      "platform": "android",
+      "focusVisibilityPass": true,
+      "keyboardTraversalPass": "n/a",
+      "textScalingPass": true,
+      "touchTargetPass": true,
+      "finalStatus": "pass"
+    },
+    {
+      "screenId": "active-shopping",
+      "platform": "web",
+      "focusVisibilityPass": true,
+      "keyboardTraversalPass": true,
+      "textScalingPass": true,
+      "touchTargetPass": true,
+      "finalStatus": "pass"
+    },
+    {
+      "screenId": "active-shopping",
+      "platform": "android",
+      "focusVisibilityPass": true,
+      "keyboardTraversalPass": "n/a",
+      "textScalingPass": true,
+      "touchTargetPass": true,
+      "finalStatus": "pass"
+    },
+    {
+      "screenId": "overview",
+      "platform": "web",
+      "focusVisibilityPass": true,
+      "keyboardTraversalPass": true,
+      "textScalingPass": true,
+      "touchTargetPass": true,
+      "finalStatus": "pass"
+    },
+    {
+      "screenId": "overview",
+      "platform": "android",
+      "focusVisibilityPass": true,
+      "keyboardTraversalPass": "n/a",
+      "textScalingPass": true,
+      "touchTargetPass": true,
+      "finalStatus": "pass"
+    },
+    {
+      "screenId": "settings",
+      "platform": "web",
+      "focusVisibilityPass": true,
+      "keyboardTraversalPass": true,
+      "textScalingPass": true,
+      "touchTargetPass": true,
+      "finalStatus": "pass"
+    },
+    {
+      "screenId": "settings",
+      "platform": "android",
+      "focusVisibilityPass": true,
+      "keyboardTraversalPass": "n/a",
+      "textScalingPass": true,
+      "touchTargetPass": true,
+      "finalStatus": "pass"
+    }
+  ]
+}

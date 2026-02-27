@@ -1,0 +1,187 @@
+{
+  "releaseId": "RC-2026-02-24",
+  "baselineRuns": [
+    {
+      "runId": "baseline-android-touch-01",
+      "platform": "android",
+      "inputMode": "touch",
+      "flow": "core-add-validate",
+      "durationSeconds": 102,
+      "completed": true,
+      "deterministic": true
+    },
+    {
+      "runId": "baseline-android-touch-02",
+      "platform": "android",
+      "inputMode": "touch",
+      "flow": "core-add-validate",
+      "durationSeconds": 98,
+      "completed": true,
+      "deterministic": true
+    },
+    {
+      "runId": "baseline-android-touch-03",
+      "platform": "android",
+      "inputMode": "touch",
+      "flow": "core-add-validate",
+      "durationSeconds": 96,
+      "completed": true,
+      "deterministic": true
+    },
+    {
+      "runId": "baseline-android-touch-04",
+      "platform": "android",
+      "inputMode": "touch",
+      "flow": "core-add-validate",
+      "durationSeconds": 104,
+      "completed": true,
+      "deterministic": true
+    },
+    {
+      "runId": "baseline-android-touch-05",
+      "platform": "android",
+      "inputMode": "touch",
+      "flow": "core-add-validate",
+      "durationSeconds": 99,
+      "completed": true,
+      "deterministic": true
+    },
+    {
+      "runId": "baseline-web-keyboard-01",
+      "platform": "web",
+      "inputMode": "keyboard",
+      "flow": "core-add-validate",
+      "durationSeconds": 97,
+      "completed": true,
+      "deterministic": true
+    },
+    {
+      "runId": "baseline-web-keyboard-02",
+      "platform": "web",
+      "inputMode": "keyboard",
+      "flow": "core-add-validate",
+      "durationSeconds": 101,
+      "completed": true,
+      "deterministic": true
+    },
+    {
+      "runId": "baseline-web-keyboard-03",
+      "platform": "web",
+      "inputMode": "keyboard",
+      "flow": "core-add-validate",
+      "durationSeconds": 99,
+      "completed": true,
+      "deterministic": true
+    },
+    {
+      "runId": "baseline-web-pointer-01",
+      "platform": "web",
+      "inputMode": "pointer",
+      "flow": "core-add-validate",
+      "durationSeconds": 95,
+      "completed": true,
+      "deterministic": true
+    },
+    {
+      "runId": "baseline-web-pointer-02",
+      "platform": "web",
+      "inputMode": "pointer",
+      "flow": "core-add-validate",
+      "durationSeconds": 100,
+      "completed": true,
+      "deterministic": true
+    }
+  ],
+  "refreshedRuns": [
+    {
+      "runId": "refresh-android-touch-01",
+      "platform": "android",
+      "inputMode": "touch",
+      "flow": "core-add-validate",
+      "durationSeconds": 68,
+      "completed": true,
+      "deterministic": true
+    },
+    {
+      "runId": "refresh-android-touch-02",
+      "platform": "android",
+      "inputMode": "touch",
+      "flow": "core-add-validate",
+      "durationSeconds": 71,
+      "completed": true,
+      "deterministic": true
+    },
+    {
+      "runId": "refresh-android-touch-03",
+      "platform": "android",
+      "inputMode": "touch",
+      "flow": "core-add-validate",
+      "durationSeconds": 70,
+      "completed": true,
+      "deterministic": true
+    },
+    {
+      "runId": "refresh-android-touch-04",
+      "platform": "android",
+      "inputMode": "touch",
+      "flow": "core-add-validate",
+      "durationSeconds": 66,
+      "completed": true,
+      "deterministic": true
+    },
+    {
+      "runId": "refresh-android-touch-05",
+      "platform": "android",
+      "inputMode": "touch",
+      "flow": "core-add-validate",
+      "durationSeconds": 67,
+      "completed": true,
+      "deterministic": true
+    },
+    {
+      "runId": "refresh-web-keyboard-01",
+      "platform": "web",
+      "inputMode": "keyboard",
+      "flow": "core-add-validate",
+      "durationSeconds": 70,
+      "completed": true,
+      "deterministic": true
+    },
+    {
+      "runId": "refresh-web-keyboard-02",
+      "platform": "web",
+      "inputMode": "keyboard",
+      "flow": "core-add-validate",
+      "durationSeconds": 71,
+      "completed": true,
+      "deterministic": true
+    },
+    {
+      "runId": "refresh-web-keyboard-03",
+      "platform": "web",
+      "inputMode": "keyboard",
+      "flow": "core-add-validate",
+      "durationSeconds": 68,
+      "completed": true,
+      "deterministic": true
+    },
+    {
+      "runId": "refresh-web-pointer-01",
+      "platform": "web",
+      "inputMode": "pointer",
+      "flow": "core-add-validate",
+      "durationSeconds": 72,
+      "completed": true,
+      "deterministic": true
+    },
+    {
+      "runId": "refresh-web-pointer-02",
+      "platform": "web",
+      "inputMode": "pointer",
+      "flow": "core-add-validate",
+      "durationSeconds": 69,
+      "completed": true,
+      "deterministic": true
+    }
+  ]
+}

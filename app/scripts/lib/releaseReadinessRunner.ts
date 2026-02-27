@@ -137,18 +137,34 @@ function evaluateUsabilityCriteriaFailures(bundles: EvidenceBundleRecord[]): str
       continue;
     }
 
+    const sc001 = (successCriteria as { sc001?: unknown }).sc001;
+    const sc002 = (successCriteria as { sc002?: unknown }).sc002;
+    const sc003 = (successCriteria as { sc003?: unknown }).sc003;
+    const sc004 = (successCriteria as { sc004?: unknown }).sc004;
+    const sc005 = (successCriteria as { sc005?: unknown }).sc005;
     const sc006 = (successCriteria as { sc006?: unknown }).sc006;
     const sc007 = (successCriteria as { sc007?: unknown }).sc007;
-    const sc008 = (successCriteria as { sc008?: unknown }).sc008;
 
+    if (sc001 !== 'pass') {
+      failingCriteria.push('SC-001');
+    }
+    if (sc002 !== 'pass') {
+      failingCriteria.push('SC-002');
+    }
+    if (sc003 !== 'pass') {
+      failingCriteria.push('SC-003');
+    }
+    if (sc004 !== 'pass') {
+      failingCriteria.push('SC-004');
+    }
+    if (sc005 !== 'pass') {
+      failingCriteria.push('SC-005');
+    }
     if (sc006 !== 'pass') {
       failingCriteria.push('SC-006');
     }
     if (sc007 !== 'pass') {
       failingCriteria.push('SC-007');
-    }
-    if (sc008 !== 'ready') {
-      failingCriteria.push('SC-008');
     }
   }
 
